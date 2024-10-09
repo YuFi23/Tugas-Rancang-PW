@@ -75,16 +75,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-
-.navbar {
-    background-color: #333;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-
 .welcome {
     color: #705C53;
     text-align: center;
@@ -95,12 +85,34 @@ body {
 }
 
 
+/* Styling umum untuk navbar */
+.navbar {
+    background-color: #333;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/* Styling untuk menu toggle checkbox dan ikon hamburger */
+.menu-toggle {
+    display: none; /* Sembunyikan checkbox asli */
+}
+
+.menu-icon {
+    display: none; /* Sembunyikan ikon hamburger di layar besar */
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Styling untuk navigasi link */
 .nav-links {
     list-style: none;
     display: flex;
     gap: 20px;
 }
-
 
 .nav-links li {
     position: relative;
@@ -119,9 +131,33 @@ body {
     border-radius: 5px;
 }
 
-.nav-links a.active {
-    background-color: transparent; 
-    font-weight: normal; 
-    color: white;
-    text-decoration: none; 
+/* Styling navbar responsif pada perangkat tablet dan ponsel */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Sembunyikan menu pada perangkat kecil */
+        flex-direction: column;
+        width: 100%;
+        background-color: #333;
+        position: absolute;
+        top: 60px;
+        left: 0;
+    }
+
+    .menu-toggle:checked + .menu-icon + .nav-links {
+        display: flex; /* Tampilkan menu saat checkbox diaktifkan */
+    }
+
+    .menu-icon {
+        display: block; /* Tampilkan ikon hamburger pada perangkat kecil */
+    }
+
+    .nav-links li {
+        width: 100%; /* Buat link menu memenuhi lebar penuh */
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 10px;
+        text-align: center;
+    }
 }
