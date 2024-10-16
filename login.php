@@ -1,54 +1,37 @@
 <?php
-// Mulai sesi
 session_start();
 
-// Periksa jika form login dikirim
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     // Dapatkan input email dan password dari form
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Lakukan validasi dan autentikasi pengguna di sini
-    // (Misalnya, periksa kredensial terhadap database atau sistem autentikasi)
-
-    // Jika autentikasi berhasil
     if ($email == "example@example.com" && $password == "password123") {
-        // Simpan informasi pengguna ke sesi
         $_SESSION['user_email'] = $email;
         $_SESSION['user_authenticated'] = true;
 
-        // Redirect ke halaman yang dilindungi
         header("Location: protected_page.php");
         exit;
     } else {
-        // Jika autentikasi gagal, tampilkan pesan error
         $login_error = "Email atau kata sandi tidak valid.";
     }
 }
 
-// Periksa jika form sign up dikirim
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
     // Dapatkan input dari form sign up
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
-
-    // Lakukan validasi dan registrasi pengguna di sini
-    // (Misalnya, menyimpan data ke database)
-
-    // Jika registrasi berhasil
+    
     if ($password == $confirm_password) {
-        // Simpan informasi pengguna ke sesi
         $_SESSION['user_name'] = $name;
         $_SESSION['user_email'] = $email;
         $_SESSION['user_authenticated'] = true;
 
-        // Redirect ke halaman yang dilindungi
         header("Location: protected_page.php");
         exit;
     } else {
-        // Jika registrasi gagal, tampilkan pesan error
         $signup_error = "Kata sandi tidak cocok.";
     }
 }
