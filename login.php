@@ -2,7 +2,6 @@
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
-    // Dapatkan input email dan password dari form
     $email = $_POST['email'];
     $password = $_POST['password'];
 
@@ -18,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
-    // Dapatkan input dari form sign up
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
