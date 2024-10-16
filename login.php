@@ -56,7 +56,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
 </head>
 <body>
     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
-        <!-- Login Form -->
         <div class="login-container">
             <h2 class="text-center mb-4">Welcome To Encore Shield</h2>
             <?php if (isset($login_error)) { ?>
@@ -78,7 +77,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
             </form>
         </div>
 
-        <!-- Sign Up Form -->
         <div class="signup-container d-none">
             <h2 class="text-center mb-4">Welcome To Encore Shield</h2>
             <?php if (isset($signup_error)) { ?>
