@@ -1,11 +1,10 @@
-/* Resetting default styling for all elements */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Styling for the brand name */
 .merk {
     color: white; 
     font-size: 24px;
@@ -13,7 +12,6 @@
     margin-right: 50px; 
 }
 
-/* Body styling with a background image */
 body {
     background-image: url("img/b6c0cc3d04a8e2cc4b2e6a4b7144764b.jpeg");
     background-size: cover;
@@ -22,7 +20,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Styling umum untuk navbar */
 .navbar {
     background-color: #333;
     padding: 15px 20px;
@@ -32,19 +29,18 @@ body {
     position: relative;
 }
 
-/* Styling untuk menu toggle checkbox dan ikon hamburger */
 .menu-toggle {
-    display: none; /* Sembunyikan checkbox asli */
+    display: none; 
 }
 
 .menu-icon {
-    display: none; /* Sembunyikan ikon hamburger di layar besar */
+    display: none; 
     font-size: 24px;
     color: white;
     cursor: pointer;
 }
 
-/* Styling untuk navigasi link */
+
 .nav-links {
     list-style: none;
     display: flex;
@@ -68,10 +64,10 @@ body {
     border-radius: 5px;
 }
 
-/* Styling navbar responsif pada perangkat tablet dan ponsel */
+
 @media (max-width: 768px) {
     .nav-links {
-        display: none; /* Sembunyikan menu pada perangkat kecil */
+        display: none; 
         flex-direction: column;
         width: 100%;
         background-color: #333;
@@ -81,15 +77,15 @@ body {
     }
 
     .menu-toggle:checked + .menu-icon + .nav-links {
-        display: flex; /* Tampilkan menu saat checkbox diaktifkan */
+        display: flex; 
     }
 
     .menu-icon {
-        display: block; /* Tampilkan ikon hamburger pada perangkat kecil */
+        display: block; 
     }
 
     .nav-links li {
-        width: 100%; /* Buat link menu memenuhi lebar penuh */
+        width: 100%; 
     }
 
     .nav-links a {
@@ -99,16 +95,16 @@ body {
     }
 }
 
-/* Styling for the about section */
+
 .about-section {
     font-size: 25px;
     background-color: rgba(255, 255, 255, 0.8);
     padding: 50px 20px;
     margin-top: 30px;
-    margin: 30px auto; /* Centering the section */
+    margin: 30px auto; 
     border-radius: 20px;
     width: 90%;
-    max-width: 1000px; /* Restricting the max width */
+    max-width: 1000px; 
     
 }
 
@@ -116,49 +112,48 @@ body {
     line-height: 1.6;
 }
 
-/* Media Query for Tablets */
+
 @media (max-width: 768px) {
     .about-section {
-        font-size: 16px; /* Slightly smaller font on tablets */
-        padding: 15px; /* Adjust padding for a tighter fit */
+        font-size: 16px; 
+        padding: 15px; 
     }
 
     .nav-links {
-        flex-direction: column; /* Stack navigation links vertically */
-        gap: 10px; /* Reduce gap between links */
+        flex-direction: column; 
+        gap: 10px; 
     }
 
     .merk {
-        margin-bottom: 10px; /* Add space below the brand name */
+        margin-bottom: 10px; 
     }
 
     .navbar {
-        flex-direction: column; /* Stack the navbar items vertically */
-        align-items: flex-start; /* Align items to the start */
+        flex-direction: column; 
+        align-items: flex-start; 
     }
 }
 
-/* Media Query for Mobile Devices */
 @media (max-width: 480px) {
     .about-section {
-        font-size: 14px; /* Smaller font size for better readability on small screens */
-        padding: 10px; /* Less padding on smaller screens */
+        font-size: 14px; 
+        padding: 10px; 
     }
 
     .navbar {
-        padding: 10px; /* Adjust navbar padding */
+        padding: 10px; 
     }
 
     .nav-links {
-        gap: 5px; /* Minimize gap between links */
+        gap: 5px; 
     }
 
     .nav-links a {
-        padding: 8px 10px; /* Smaller padding on links */
-        font-size: 14px; /* Adjust font size for mobile links */
+        padding: 8px 10px; 
+        font-size: 14px;
     }
 
     .merk {
-        font-size: 20px; /* Slightly smaller font size for the brand */
+        font-size: 20px;
     }
 }

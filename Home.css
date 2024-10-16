@@ -1,11 +1,9 @@
-/* Resetting default styling for all elements */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Styling for the welcome message */
 .welcome {
     color: #705C53;
     text-align: center;
@@ -14,7 +12,6 @@
     margin-top: 50px;
 }
 
-/* Styling for the brand name */
 .merk {
    color: white;
    font-size: 24px;
@@ -22,7 +19,6 @@
    margin-right: 50px; 
 }
 
-/* Body styling with a background image */
 body {
     background-image: url("img/background home.png");
     background-size: cover;
@@ -40,19 +36,18 @@ body {
     position: relative;
 }
 
-/* Styling untuk menu toggle checkbox dan ikon hamburger */
 .menu-toggle {
-    display: none; /* Sembunyikan checkbox asli */
+    display: none;
 }
 
 .menu-icon {
-    display: none; /* Sembunyikan ikon hamburger di layar besar */
+    display: none; 
     font-size: 24px;
     color: white;
     cursor: pointer;
 }
 
-/* Styling untuk navigasi link */
+
 .nav-links {
     list-style: none;
     display: flex;
@@ -76,10 +71,10 @@ body {
     border-radius: 5px;
 }
 
-/* Styling navbar responsif pada perangkat tablet dan ponsel */
+
 @media (max-width: 768px) {
     .nav-links {
-        display: none; /* Sembunyikan menu pada perangkat kecil */
+        display: none; 
         flex-direction: column;
         width: 100%;
         background-color: #333;
@@ -89,15 +84,15 @@ body {
     }
 
     .menu-toggle:checked + .menu-icon + .nav-links {
-        display: flex; /* Tampilkan menu saat checkbox diaktifkan */
+        display: flex; 
     }
 
     .menu-icon {
-        display: block; /* Tampilkan ikon hamburger pada perangkat kecil */
+        display: block; 
     }
 
     .nav-links li {
-        width: 100%; /* Buat link menu memenuhi lebar penuh */
+        width: 100%; 
     }
 
     .nav-links a {
@@ -106,28 +101,27 @@ body {
         text-align: center;
     }
 }
-/* Styling for the logo */
+
 .logo3 {
-    width: 90%; /* Making the logo responsive */
+    width: 90%; 
     max-width: 600px;
     height: auto;
-    margin: 0 auto; /* Centering the logo */
+    margin: 0 auto; 
     display: block;
 }
 
-/* Order container styling to center the button */
-/* Order container styling to center the button */
+
 .order-container {
     display: flex;
-    justify-content: center; /* Centers the button horizontally */
-    align-items: center; /* Centers the button vertically if needed */
-    margin-top: 20px; /* Add some margin to separate it from the content above */
+    justify-content: center; 
+    align-items: center; 
+    margin-top: 20px; 
 }
 
-/* Styling for the order button */
+
 .order {
-    width: 80%; /* Making the button responsive */
-    max-width: 300px; /* Limiting the max width */
+    width: 80%; 
+    max-width: 300px; 
     text-align: center;
     padding: 15px 30px;
     border: 2px solid #2c2c2c; 
@@ -142,7 +136,7 @@ body {
     overflow: hidden;
     font-weight: bold;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    margin: 0 auto; /* Centering the button */
+    margin: 0 auto; 
 }
 
 
@@ -174,7 +168,7 @@ body {
 }
 
 
-/* Responsive adjustments for tablets */
+
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
@@ -199,7 +193,7 @@ body {
     }
 
     .logo3 {
-        width: 80%; /* Adjust logo size for tablets */
+        width: 80%; 
     }
 
     .order {
@@ -208,7 +202,7 @@ body {
     }
 }
 
-/* Responsive adjustments for mobile devices */
+
 @media (max-width: 480px) {
     .navbar {
         padding: 10px;
@@ -225,7 +219,7 @@ body {
     }
 
     .logo3 {
-        width: 90%; /* Adjust logo size for mobile */
+        width: 90%; 
     }
 
     .order {
