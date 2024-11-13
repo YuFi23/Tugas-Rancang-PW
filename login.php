@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-image: url('Tugas-Rancang-PW-main\img\background home.png');
+            background-image: url('background.jpg');
             background-size: cover;
             background-position: center;
         }
