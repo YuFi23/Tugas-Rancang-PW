@@ -1,48 +1,76 @@
 <?php
 session_start();
+include 'database.php'; // Menghubungkan ke database
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
+// Cek jika form login dikirim
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
+    // Mengambil data dari form login
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    if ($email == "example@example.com" && $password == "password123") {
-        $_SESSION['user_email'] = $email;
-        $_SESSION['user_authenticated'] = true;
+    // Query untuk mencari user berdasarkan email
+    $sql = "SELECT * FROM akun WHERE email = '$email'";
+    $result = $conn->query($sql);
 
-        header("Location: protected_page.php");
-        exit;
+    if ($result->num_rows > 0) {
+        // Mengambil data user
+        $user = $result->fetch_assoc();
+        
+        // Verifikasi password
+        if (password_verify($password, $user['password'])) {
+            // Password cocok, simpan data pengguna dalam sesi
+            $_SESSION['email'] = $user['email'];
+            echo "<script>alert('Login berhasil! Selamat datang, " . $user['email'] . "');</script>";
+        } else {
+            // Password tidak cocok
+            $login_error = "Password salah!";
+        }
     } else {
-        $login_error = "Email atau kata sandi tidak valid.";
+        // email tidak ditemukan
+        $login_error = "Email tidak ditemukan!";
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
-    $name = $_POST['name'];
+// Cek jika form signup dikirim
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['signup'])) {
+    // Mengambil data dari form signup
+    $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
-    
-    if ($password == $confirm_password) {
-        $_SESSION['user_name'] = $name;
-        $_SESSION['user_email'] = $email;
-        $_SESSION['user_authenticated'] = true;
 
-        header("Location: protected_page.php");
-        exit;
+    // Verifikasi apakah password dan konfirmasi password cocok
+    if ($password != $confirm_password) {
+        $signup_error = "Password dan konfirmasi password tidak cocok!";
     } else {
-        $signup_error = "Kata sandi tidak cocok.";
+        // Hash password sebelum disimpan
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Query untuk menyimpan data pengguna baru
+        $sql = "INSERT INTO akun (username, email, password) VALUES ('$username', '$email', '$hashed_password')";
+        
+        if ($conn->query($sql) === TRUE) {
+            echo "<script>alert('Registrasi berhasil!');</script>";
+        } else {
+            $signup_error = "Terjadi kesalahan saat mendaftar: " . $conn->error;
+        }
     }
 }
+
+// Menutup koneksi
+$conn->close();
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Encore Shield</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-image: url('background.jpg');
+            background-image: url('img/background\ home.png');
             background-size: cover;
             background-position: center;
         }
@@ -52,16 +80,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
+        .back-button {
+            background-color: #444;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            margin-left: 40px;
+            margin-top: 25px;
+        }
     </style>
 </head>
 <body>
+    <a href="home.html">
+        <button class="back-button">Back</button>
+    </a>
+    
     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
         <div class="login-container">
             <h2 class="text-center mb-4">Welcome To Encore Shield</h2>
             <?php if (isset($login_error)) { ?>
                 <div class="alert alert-danger"><?php echo $login_error; ?></div>
             <?php } ?>
-            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+            <form method="post" action="">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" class="form-control" id="email" name="email" required>
@@ -76,16 +117,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
                 </div>
             </form>
         </div>
-
+        
         <div class="signup-container d-none">
             <h2 class="text-center mb-4">Welcome To Encore Shield</h2>
             <?php if (isset($signup_error)) { ?>
                 <div class="alert alert-danger"><?php echo $signup_error; ?></div>
             <?php } ?>
-            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+            <form method="post" action="">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
+                    <input type="text" class="form-control" id="username" name="username" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Email Address</label>

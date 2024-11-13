@@ -1,26 +1,23 @@
+/* Mengatur body untuk latar belakang */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-image:url("img/b6c0cc3d04a8e2cc4b2e6a4b7144764b.jpeg");
+    background-image: url("img/b6c0cc3d04a8e2cc4b2e6a4b7144764b.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
+/* Container utama */
 .container {
-    width: 100%;
-    max-width: 1200px;
-    padding: 20px;
-    text-align: center;
-    margin-top: 11%;
-    margin-left: 12%;
-    
-}
-
-.card-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;    /* Pusatkan card-container secara horizontal */
+    align-items: center;        /* Pusatkan secara vertikal */
     flex-wrap: wrap;
-   
+    height: 100vh;              /* Pastikan container mengambil seluruh tinggi layar */
+    width: 100%;
 }
 
+/* Gaya untuk masing-masing card */
 .card {
     background-color: #333;
     color: white;
@@ -29,62 +26,54 @@ body {
     margin: 10px;
     width: 200px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* Pusatkan isi card secara horizontal */
+    justify-content: center; /* Pusatkan elemen card secara vertikal */
 }
 
+/* Efek hover untuk card */
 .card:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* Gaya avatar */
 .avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: #fff;
-    margin: 0 auto 10px;
+    width: 80px;           /* Ukuran tetap untuk avatar */
+    height: 80px;          /* Ukuran tetap untuk avatar */
+    border-radius: 50%;    /* Membuat gambar berbentuk lingkaran */
+    overflow: hidden;      /* Memastikan gambar terpotong jika lebih besar */
+    margin-bottom: 10px;   /* Memberikan jarak antara avatar dan teks */
 }
 
-.social-icons a {
-    color: white;
-    margin: 0 5px;
-    text-decoration: none;
-    font-size: 14px;
+/* Memastikan gambar di dalam avatar diatur dengan benar */
+.avatar img {
+    width: 100%;           /* Gambar memenuhi lebar avatar */
+    height: 100%;          /* Gambar memenuhi tinggi avatar */
+    object-fit: cover;     /* Menjaga proporsi gambar tanpa distorsi */
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Gaya untuk teks dalam card */
+.card h2 {
+    margin: 5px 0;         /* Memberikan jarak antar elemen */
+    font-size: 18px;       /* Ukuran font lebih besar untuk nama */
 }
 
+/* Gaya untuk nomor dalam card */
+.card p {
+    font-size: 14px;       /* Ukuran font lebih kecil untuk nomor */
+    color: #ddd;           /* Memberikan warna lebih terang untuk nomor */
+}
 
+/* Menambah pengaturan untuk nav-bar dan responsivitas */
 .merk {
-   color: white;
-   font-size: 24px;
-   font-weight: bold;
-   margin-right: 50px; 
-}
-
-
-body {
-    background-image: url("img/background home.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    font-family: Arial, sans-serif;
-}
-
-.welcome {
-    color: #705C53;
-    text-align: center;
-    font-size: 3em;
+    color: white; 
+    font-size: 24px;
     font-weight: bold;
-    margin-top: 50px;
-    margin-bottom: px; 
-}
-
-
+    margin-right: 50px; 
+ }
+ 
 .navbar {
     background-color: #333;
     padding: 15px 20px;
@@ -104,7 +93,6 @@ body {
     color: white;
     cursor: pointer;
 }
-
 
 .nav-links {
     list-style: none;
@@ -128,7 +116,6 @@ body {
     background-color: #555;
     border-radius: 5px;
 }
-
 
 @media (max-width: 768px) {
     .nav-links {
@@ -159,3 +146,4 @@ body {
         text-align: center;
     }
 }
+

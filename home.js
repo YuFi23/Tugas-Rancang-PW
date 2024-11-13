@@ -15,9 +15,7 @@ function toggleVisibility() {
 }
 
 window.addEventListener('scroll', toggleVisibility);
-window.addEventListener('load', toggleVisibility); 
-
-
+window.addEventListener('load', toggleVisibility);
 const navbar = document.querySelector('.navbar');
 
 window.addEventListener('scroll', () => {

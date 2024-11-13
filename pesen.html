@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,18 +24,18 @@
                 </div>
             </div>
             <div class="form-section">
-                <form>
+                <form action="" method="POST">
                     <label for="name">Nama:</label>
-                    <input type="text" id="name" required>
+                    <input type="text" id="name" name="name" required>
 
                     <label for="email">Email:</label>
-                    <input type="email" id="email" required>
+                    <input type="email" id="email" name="email" required>
 
                     <label for="phone">No Telp:</label>
-                    <input type="tel" id="phone" required>
+                    <input type="tel" id="phone" name="phone" required>
 
                     <label for="payment">Metode Pembayaran:</label>
-                    <select id="payment" required>
+                    <select id="payment" name="payment_method" required>
                         <option value="qris">QRIS</option>
                     </select>
 
@@ -43,8 +44,8 @@
                         <p>Regular: --</p>
                     </div>
 
-                    <button type="submit" class="buy-button">BUY VIP</button>
-                    <button type="submit" class="buy-button">BUY REGULER</button>
+                    <button type="submit" name="ticket_type" value="VIP" class="buy-button">BUY VIP</button>
+                    <button type="submit" name="ticket_type" value="Regular" class="buy-button">BUY REGULER</button>
                 </form>
             </div>
         </div>
@@ -100,7 +101,7 @@
             if (concertData[concert]) {
                 document.querySelector(".event-image").src = concertData[concert].img;
                 document.querySelector(".event-info h1").textContent = concertData[concert].name;
-                document.querySelector(".price-info").innerHTML = `
+                document.querySelector(".price-info").innerHTML = ` 
                     <p>VIP: ${concertData[concert].vipPrice}</p>
                     <p>Regular: ${concertData[concert].regularPrice}</p>
                 `;
