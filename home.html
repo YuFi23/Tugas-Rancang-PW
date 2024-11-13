@@ -3,26 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navbar Example</title>
+    <title>Encore Shield</title>
     <link rel="stylesheet" href="Home.css">
-</head>
+  </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="merk">EncS</div>
         <input type="checkbox" id="menu-toggle" class="menu-toggle">
         <label for="menu-toggle" class="menu-icon">&#9776;</label>
         <ul class="nav-links">
-            <li><a href="home.html">HOME</a></li>
-            <li><a href="buy.html">BUY TICKET</a></li>
-            <li><a href="about.html">ABOUT US</a></li>
-            <li><a href="contact.html">CONTACT US</a></li>
-            <li><a href="login.html">LOGIN</a></li>
+            <li><a href="#home">HOME</a></li>
+            <li><a href="#about">ABOUT US</a></li>
+            <li><a href="#contact">CONTACT US</a></li>
+            <li><a href="login.php">LOGIN</a></li>
         </ul>
     </nav>
-    <h1 class="welcome">WELCOME TO ENCORE SHILD</h1>
-    <img src="img/60d579f6eb2ceffec8991ed13f909c15.png" class="logo3" alt="Encore Shield Logo"/>
+
+    <!-- Welcome Section -->
+    <h1 class="welcome">WELCOME TO ENCORE SHIELD</h1>
+    <img src="img/logo.png" class="logo3" alt="Encore Shield Logo"/>
     <div class="order-container">
         <a class="order" href="buy.html">ORDER NOW!</a>
     </div>
+
+    <!-- Card Container -->
+    <div class="container card-container section">
+        <div class="card">
+            <div class="avatar"><img src="" alt="Avatar"></div>
+            <h2>Yerky Syabana</h2>
+            <p>672023186</p>
+        </div>
+        <div class="card">
+            <div class="avatar"><img src="" alt="Avatar"></div>
+            <h2>Praditya Yuandra</h2>
+            <p>672023088</p>
+        </div>
+        <div class="card">
+            <div class="avatar"><img src="" alt="Avatar"></div>
+            <h2>Hana</h2>
+            <p>672023004</p>
+        </div>
+        <div class="card">
+            <div class="avatar"><img src="" alt="Avatar"></div>
+            <h2>Mattia</h2>
+            <p>672023005</p>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="container">
+        <section class="about-section section">
+            <p>
+                Encore Shield (EncS) is a website platform that allows users to buy concert tickets online
+                easily, quickly and safely. Music fans can discover various concerts, get complete information, 
+                and make reservations directly from home. Encore Shield aims to be the main solution for music lovers.
+            </p>
+            <p>
+                Additionally, Encore Shield provides responsive customer support services to assist users in the
+                purchasing process. The platform ensures optimal access speed and real-time information on ticket availability.
+            </p>
+        </section>
+    </div>
+
+    <!-- JavaScript for Scroll Animation -->
+    <script src="home.js">
+    </script>
 </body>
 </html>

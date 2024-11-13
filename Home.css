@@ -1,80 +1,70 @@
+/* Reset and Global Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-.welcome {
-    color: #705C53;
-    text-align: center;
-    font-size: 3em;
-    font-weight: bold;
-    margin-top: 50px;
-}
-
-.merk {
-   color: white;
-   font-size: 24px;
-   font-weight: bold;
-   margin-right: 50px; 
-}
-
 body {
+    font-family: Arial, sans-serif;
     background-image: url("img/background home.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    font-family: Arial, sans-serif;
 }
 
+/* Navbar */
 .navbar {
-    background-color: #333;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
+background-color: #333;
+padding: 15px 20px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+position: fixed;
+top: 0;
+width: 100%;
+z-index: 1000;
+transition: background-color 0.3s ease; /* Transisi untuk perubahan warna */
 }
 
+.navbar.transparent {
+background-color: rgba(51, 51, 51, 0.5); /* Warna transparan */
+}
+
+.merk {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
 .menu-toggle {
     display: none;
 }
-
 .menu-icon {
-    display: none; 
+    display: none;
     font-size: 24px;
     color: white;
     cursor: pointer;
 }
-
-
 .nav-links {
     list-style: none;
     display: flex;
     gap: 20px;
 }
-
-.nav-links li {
-    position: relative;
-}
-
 .nav-links a {
     text-decoration: none;
     color: white;
     font-size: 16px;
     padding: 10px 15px;
-    background-color: transparent;
 }
-
 .nav-links a:hover {
     background-color: #555;
     border-radius: 5px;
 }
 
-
+/* Mobile Navbar */
 @media (max-width: 768px) {
     .nav-links {
-        display: none; 
+        display: none;
         flex-direction: column;
         width: 100%;
         background-color: #333;
@@ -82,148 +72,135 @@ body {
         top: 60px;
         left: 0;
     }
-
     .menu-toggle:checked + .menu-icon + .nav-links {
-        display: flex; 
+        display: flex;
     }
-
     .menu-icon {
-        display: block; 
-    }
-
-    .nav-links li {
-        width: 100%; 
-    }
-
-    .nav-links a {
         display: block;
-        padding: 10px;
-        text-align: center;
     }
 }
 
+/* Welcome Section */
+.welcome {
+color: #705C53;
+text-align: center;
+font-size: 3em;
+font-weight: bold;
+margin-top: 100px; /* Memberikan jarak dari navbar */
+margin-bottom: 50px; /* Jarak ke section berikutnya */
+}
 .logo3 {
-    width: 90%; 
+    width: 90%;
     max-width: 600px;
     height: auto;
-    margin: 0 auto; 
+    margin: 0 auto;
     display: block;
 }
 
-
+/* Order Button */
 .order-container {
     display: flex;
-    justify-content: center; 
-    align-items: center; 
-    margin-top: 20px; 
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
 }
-
-
 .order {
-    width: 80%; 
-    max-width: 300px; 
+    width: 80%;
+    max-width: 300px;
     text-align: center;
     padding: 15px 30px;
-    border: 2px solid #2c2c2c; 
+    border: 2px solid #2c2c2c;
     background-color: #1a1a1a;
     color: #ffffff;
     font-size: 1.8rem;
     cursor: pointer;
     border-radius: 30px;
     transition: all 0.4s ease-in-out;
-    outline: none;
-    position: relative;
-    overflow: hidden;
     font-weight: bold;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    margin: 0 auto; 
 }
-
-
-.order::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%; 
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.4) 0%,
-      rgba(255, 255, 255, 0) 80%
-    );
-    transform: translate(-50%, -50%) scale(0); 
-    transition: transform 0.6s ease-out; 
-}
-
-.order:hover::after {
-    transform: translate(-50%, -50%) scale(1); 
-}
-
 .order:hover {
-    border-color: #666666;
     background: #292929;
-    color: #fff; 
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); 
+    border-color: #666;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
+/* About Section */
+.about-section {
+font-size: 18px;
+background-color: rgba(255, 255, 255, 0.8);
+padding: 20px;
+margin: 50px auto; /* Jarak atas dan bawah antar section */
+border-radius: 20px;
+width: 90%;
+max-width: 1000px;
+}
+.about-section p {
+    line-height: 1.6;
+}
 
+/* Card Container */
+.card-container {
+display: flex;
+justify-content: space-around;
+flex-wrap: wrap;
+margin-top: 50px; /* Jarak atas untuk memberikan space */
+margin-bottom: 50px; /* Jarak bawah ke section berikutnya */
+}
+.card {
+    background-color: #333;
+    color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    width: 200px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+.avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #fff;
+    margin: 0 auto 10px;
+}
 
+/* Scroll Animation */
+.section {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.6s ease-out;
+}
+.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 20px;
-    }
-
-    .nav-links {
-        flex-direction: column;
-        gap: 10px;
-        width: 100%;
-    }
-
-    .merk {
-        margin-bottom: 10px;
-        font-size: 20px;
-    }
-
     .welcome {
         font-size: 2.5em;
-        margin-top: 30px;
     }
-
-    .logo3 {
-        width: 80%; 
+    .about-section {
+        font-size: 16px;
     }
-
     .order {
-        width: 90%;
         font-size: 1.5rem;
     }
 }
-
-
 @media (max-width: 480px) {
-    .navbar {
-        padding: 10px;
-    }
-
-    .nav-links a {
-        font-size: 14px;
-        padding: 8px 10px;
-    }
-
     .welcome {
         font-size: 2em;
-        margin-top: 20px;
     }
-
-    .logo3 {
-        width: 90%; 
+    .about-section {
+        font-size: 14px;
     }
-
     .order {
-        width: 95%;
         font-size: 1.2rem;
     }
 }
