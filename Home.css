@@ -176,7 +176,7 @@ margin-bottom: 50px; /* Jarak bawah ke section berikutnya */
     transform: translateY(50px);
     transition: all 0.6s ease-out;
 }
-.show {
+.section.show {
     opacity: 1;
     transform: translateY(0);
 }
@@ -204,3 +204,4 @@ margin-bottom: 50px; /* Jarak bawah ke section berikutnya */
         font-size: 1.2rem;
     }
 }
+
