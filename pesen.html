@@ -43,15 +43,17 @@
                         <p>VIP: --</p>
                         <p>Regular: --</p>
                     </div>
-
-                    <button type="submit" name="ticket_type" value="VIP" class="buy-button">BUY VIP</button>
-                    <button type="submit" name="ticket_type" value="Regular" class="buy-button">BUY REGULER</button>
+                    <div class="buy-button">
+                    <a type="submit" name="ticket_type" value="VIP"  href="https://saweria.co/YuFi" >BUY VIP</a>
+                    </div>
+                    <div class="buy-button">
+                    <a type="submit" name="ticket_type" value="Regular" href="https://saweria.co/YuFi">BUY REGULER</a>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript untuk menampilkan informasi konser yang dipilih -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const urlParams = new URLSearchParams(window.location.search);

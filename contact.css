@@ -1,4 +1,3 @@
-/* Mengatur body untuk latar belakang */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -7,17 +6,15 @@ body {
     background-repeat: no-repeat;
 }
 
-/* Container utama */
 .container {
     display: flex;
-    justify-content: center;    /* Pusatkan card-container secara horizontal */
-    align-items: center;        /* Pusatkan secara vertikal */
+    justify-content: center;    
+    align-items: center;        
     flex-wrap: wrap;
-    height: 100vh;              /* Pastikan container mengambil seluruh tinggi layar */
+    height: 100vh;              
     width: 100%;
 }
 
-/* Gaya untuk masing-masing card */
 .card {
     background-color: #333;
     color: white;
@@ -28,45 +25,40 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
-    align-items: center;  /* Pusatkan isi card secara horizontal */
-    justify-content: center; /* Pusatkan elemen card secara vertikal */
+    align-items: center;  
+    justify-content: center; 
 }
 
-/* Efek hover untuk card */
 .card:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Gaya avatar */
 .avatar {
-    width: 80px;           /* Ukuran tetap untuk avatar */
-    height: 80px;          /* Ukuran tetap untuk avatar */
-    border-radius: 50%;    /* Membuat gambar berbentuk lingkaran */
-    overflow: hidden;      /* Memastikan gambar terpotong jika lebih besar */
-    margin-bottom: 10px;   /* Memberikan jarak antara avatar dan teks */
+    width: 80px;           
+    height: 80px;          
+    border-radius: 50%;    
+    overflow: hidden;      
+    margin-bottom: 10px;   
 }
 
-/* Memastikan gambar di dalam avatar diatur dengan benar */
 .avatar img {
-    width: 100%;           /* Gambar memenuhi lebar avatar */
-    height: 100%;          /* Gambar memenuhi tinggi avatar */
-    object-fit: cover;     /* Menjaga proporsi gambar tanpa distorsi */
+    width: 100%;           
+    height: 100%;          
+    object-fit: cover;    
 }
 
-/* Gaya untuk teks dalam card */
 .card h2 {
-    margin: 5px 0;         /* Memberikan jarak antar elemen */
-    font-size: 18px;       /* Ukuran font lebih besar untuk nama */
+    margin: 5px 0;         
+    font-size: 18px;       
 }
 
-/* Gaya untuk nomor dalam card */
+
 .card p {
-    font-size: 14px;       /* Ukuran font lebih kecil untuk nomor */
-    color: #ddd;           /* Memberikan warna lebih terang untuk nomor */
+    font-size: 14px;       
+    color: #ddd;           
 }
 
-/* Menambah pengaturan untuk nav-bar dan responsivitas */
 .merk {
     color: white; 
     font-size: 24px;
