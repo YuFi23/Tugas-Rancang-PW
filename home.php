@@ -22,21 +22,29 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] != 'user') {
             <li><a href="home.php">HOME</a></li>
             <li><a href="about.php">ABOUT US</a></li>
             <li><a href="contact.php">CONTACT US</a></li>
-            <?php if (isset($_SESSION['email'])): ?>
-    <!-- If the user is logged in, display their avatar and a logout option -->
+          <!-- Bagian user-avatarr -->
+<?php if (isset($_SESSION['email'])): ?>
     <li class="user-avatarr">
-        <img src="img/<?php echo isset($_SESSION['avatar']) ? $_SESSION['avatar'] : 'avatar.png'; ?>" alt="Avatar" class="avatarr">
-        <span><?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; ?></span>
+        <!-- Avatar yang dapat diklik -->
+        <img src="img/<?php echo isset($_SESSION['avatar']) ? $_SESSION['avatar'] : 'avatar.png'; ?>" alt="Avatar" class="avatarr" id="avatar">
+        
+
+        <!-- Dropdown Menu -->
+        <div class="dropdown-menu" id="dropdown-menu">
+            <p class="user-name"><?php echo $_SESSION['username']; ?></p>
+            <a href="logout.php" class="logout">Logout</a>
+        </div>
     </li>
-    <li><a href="logout.php">Logout</a></li>
 <?php else: ?>
-    <!-- If the user is not logged in, show the login link -->
     <li><a href="login.php">LOGIN</a></li>
 <?php endif; ?>
+
+
+        </ul>
     </nav>
 
     <h1 class="welcome">WELCOME TO ENCORE SHIELD</h1>
-    <img src="img/logo.png" class="logo3" alt="Encore Shield Logo"/>
+    <img src="img/logo.png" class="logo3" alt="Encore Shield Logo" />
     <div class="order-container">
         <a class="order" href="buy.php">ORDER NOW!</a>
     </div>
@@ -78,7 +86,5 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] != 'user') {
         </section>
     </div>
 </body>
-
 <script src="home.js"></script>
-
 </html>
