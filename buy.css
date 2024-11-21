@@ -163,4 +163,55 @@
   }
 
 
- 
+ /* Mengatur ukuran avatar di navbar */
+.navbar .user-avatarr img {
+    width: 40px; /* Menyesuaikan ukuran avatar */
+    height: 40px; /* Memastikan proporsi tetap sama */
+    border-radius: 50%; /* Membuat gambar menjadi lingkaran */
+    object-fit: cover; /* Memastikan gambar tidak terdistorsi */
+    margin-right: 10px; /* Memberikan jarak antara gambar dan username */
+}
+.user-avatarr {
+    position: relative;
+    cursor: pointer;
+}
+
+.user-avatarr img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.user-avatarr .dropdown-menu {
+    display: none; /* Sembunyikan menu dropdown secara default */
+    position: absolute;
+    top: 50px; /* Menyesuaikan posisi menu dropdown */
+    right: 0;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: 150px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.user-avatarr .dropdown-menu p {
+    margin: 0 0 10px 0;
+    font-weight: bold;
+}
+
+.user-avatarr .dropdown-menu .logout {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 8px 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+    transition: background-color 0.3s;
+}
+
+.user-avatarr .dropdown-menu .logout:hover {
+    background-color: #555; /* Warna saat hover */
+}

@@ -91,6 +91,7 @@ if (isset($_GET['logout'])) {
 $conn->close();
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,86 +101,128 @@ $conn->close();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-image: url('img/background\ home.png');
+            font-family: Arial, sans-serif;
+            background-image: url("img/background home.png");
             background-size: cover;
             background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
         }
-        .container {
-            max-width: 600px;
-            margin-top: 50px;
-        }
+
         .form-container {
-            background-color: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-        .btn-bck {
-            display: inline-block;
-            padding: 3px 15px;
-            font-size: 24px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            outline: none;
-            color: #fff;
-            background-color: #04AA6D;
-            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 9px #999;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
         }
 
-        .btn-bck:hover {background-color: #3e8e41}
+        .form-container h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
 
-        .btn-bck:active {
-            background-color: #3e8e41;
-            box-shadow: 0 5px #666;
-            transform: translateY(4px);
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            width: 100%;
+            background-color: #04AA6D;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #038d57;
+        }
+
+        .form-container .error-message {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .form-container hr {
+            margin: 20px 0;
+            border: 0.5px solid #ddd;
+        }
+
+        .toggle-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #04AA6D;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .toggle-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="form-container" id="login-form">
+<div class="form-container">
+    <!-- Form Login -->
+    <div id="login-form">
         <h2>Login</h2>
         <?php if (!empty($login_error)): ?>
-            <div style="color: red;"><?php echo $login_error; ?></div>
+            <div class="error-message"><?php echo $login_error; ?></div>
         <?php endif; ?>
         <form action="login.php" method="post">
-            <input type="email" name="email" placeholder="Email" class="form-control" required><br><br>
-            <input type="password" name="password" placeholder="Password" class="form-control" required><br><br>
-            <button type="submit" name="login" class="btn btn-primary">Login</button>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit" name="login">Login</button>
         </form>
-        <hr>
-        <button class="btn btn-link" onclick="toggleForms()">Don't have an account? Sign up</button>
+        <a href="#" class="toggle-link" onclick="toggleForms('signup')">Don't have an account? Sign Up</a>
     </div>
 
-    <div class="form-container" id="signup-form" style="display: none;">
+    <!-- Form Sign Up -->
+    <div id="signup-form" style="display: none;">
         <h2>Sign Up</h2>
         <?php if (!empty($signup_error)): ?>
-            <div style="color: red;"><?php echo $signup_error; ?></div>
+            <div class="error-message"><?php echo $signup_error; ?></div>
         <?php endif; ?>
         <form action="login.php" method="post">
-            <input type="text" name="username" placeholder="Username" class="form-control" required><br><br>
-            <input type="email" name="email" placeholder="Email" class="form-control" required><br><br>
-            <input type="password" name="password" placeholder="Password" class="form-control" required><br><br>
-            <input type="password" name="confirm_password" placeholder="Confirm Password" class="form-control" required><br><br>
-            <button type="submit" name="signup" class="btn btn-primary">Sign Up</button>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+            <button type="submit" name="signup">Sign Up</button>
         </form>
-        <hr>
-        <button class="btn btn-link" onclick="toggleForms()">Already have an account? Login</button>
+        <a href="#" class="toggle-link" onclick="toggleForms('login')">Already have an account? Login</a>
     </div>
 </div>
 
 <script>
-    function toggleForms() {
-        var loginForm = document.getElementById('login-form');
-        var signupForm = document.getElementById('signup-form');
+    function toggleForms(form) {
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
 
-        // Toggle visibility of forms
-        loginForm.style.display = (loginForm.style.display === 'none') ? 'block' : 'none';
-        signupForm.style.display = (signupForm.style.display === 'none') ? 'block' : 'none';
+        if (form === 'signup') {
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'block';
+        } else if (form === 'login') {
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+        }
     }
 </script>
 
