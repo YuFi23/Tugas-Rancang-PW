@@ -26,6 +26,34 @@ body {
     transition: background-color 0.3s ease;
 }
 
+
+.avatarr {
+    width: 20px;               /* Ukuran lebar avatar yang lebih kecil */
+    height: 20px;              /* Ukuran tinggi avatar yang lebih kecil */
+    border-radius: 50%;        
+    background-color: #fff;    
+    margin: 0 auto 10px;       
+    overflow: hidden;          
+    display: flex;            
+    justify-content: center;
+    align-items: center;
+}
+@media (max-width: 768px) {
+    .avatarr {
+        width: 60px;             /* Ukuran avatar lebih kecil untuk layar lebih kecil */
+        height: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .avatarr {
+        width: 50px;             /* Ukuran avatar lebih kecil untuk layar sangat kecil */
+        height: 50px;
+    }
+}
+
+
+
 .navbar.transparent {
     background-color: rgba(51, 51, 51, 0.5); /* Transparent background */
 }

@@ -1,11 +1,10 @@
 <?php
 session_start();
 
-// Hapus session
+// Menghapus semua data sesi
 session_unset();
 session_destroy();
 
-// Arahkan pengguna ke halaman login setelah logout
-header("Location: login.php"); // Ganti dengan halaman login Anda
-exit;
-?>
+// Mengarahkan pengguna kembali ke halaman login
+header('Location: home.php');
+exit();
