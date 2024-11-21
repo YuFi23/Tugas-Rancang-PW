@@ -64,8 +64,8 @@ if (isset($_POST['create'])) {
 
                 <form action="manage.php" method="POST">
                     <div class="form-group">
-                        <label for="namakonser">Nama Konser</label>
-                        <input type="text" name="namakonser" placeholder="Nama Konser" required>
+                        <label for="namakonser">Nama Konser - Tanggal</label>
+                        <input type="text" name="namakonser" placeholder="Nama Konser - Tanggal" required>
                     </div>
                     <div class="form-group">
                         <label for="price">Harga</label>

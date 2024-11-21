@@ -91,7 +91,6 @@ if (isset($_GET['logout'])) {
 $conn->close();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -105,7 +104,11 @@ $conn->close();
             background-size: cover;
             background-position: center;
         }
-        .login-container, .signup-container {
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+        .form-container {
             background-color: white;
             padding: 40px;
             border-radius: 10px;
@@ -134,47 +137,51 @@ $conn->close();
             transform: translateY(4px);
         }
     </style>
-
 </head>
 <body>
 
-<!-- Form Login -->
-<h2>Login</h2>
-<?php if (!empty($login_error)): ?>
-    <div style="color: red;"><?php echo $login_error; ?></div>
-<?php endif; ?>
-<form action="login.php" method="post">
-    <input type="email" name="email" placeholder="Email" required><br><br>
-    <input type="password" name="password" placeholder="Password" required><br><br>
-    <button type="submit" name="login">Login</button>
-</form>
+<div class="container">
+    <div class="form-container" id="login-form">
+        <h2>Login</h2>
+        <?php if (!empty($login_error)): ?>
+            <div style="color: red;"><?php echo $login_error; ?></div>
+        <?php endif; ?>
+        <form action="login.php" method="post">
+            <input type="email" name="email" placeholder="Email" class="form-control" required><br><br>
+            <input type="password" name="password" placeholder="Password" class="form-control" required><br><br>
+            <button type="submit" name="login" class="btn btn-primary">Login</button>
+        </form>
+        <hr>
+        <button class="btn btn-link" onclick="toggleForms()">Don't have an account? Sign up</button>
+    </div>
 
-<hr>
+    <div class="form-container" id="signup-form" style="display: none;">
+        <h2>Sign Up</h2>
+        <?php if (!empty($signup_error)): ?>
+            <div style="color: red;"><?php echo $signup_error; ?></div>
+        <?php endif; ?>
+        <form action="login.php" method="post">
+            <input type="text" name="username" placeholder="Username" class="form-control" required><br><br>
+            <input type="email" name="email" placeholder="Email" class="form-control" required><br><br>
+            <input type="password" name="password" placeholder="Password" class="form-control" required><br><br>
+            <input type="password" name="confirm_password" placeholder="Confirm Password" class="form-control" required><br><br>
+            <button type="submit" name="signup" class="btn btn-primary">Sign Up</button>
+        </form>
+        <hr>
+        <button class="btn btn-link" onclick="toggleForms()">Already have an account? Login</button>
+    </div>
+</div>
 
-<!-- Form Sign Up -->
-<h2>Sign Up</h2>
-<?php if (!empty($signup_error)): ?>
-    <div style="color: red;"><?php echo $signup_error; ?></div>
-<?php endif; ?>
-<form action="login.php" method="post">
-    <input type="text" name="username" placeholder="Username" required><br><br>
-    <input type="email" name="email" placeholder="Email" required><br><br>
-    <input type="password" name="password" placeholder="Password" required><br><br>
-    <input type="password" name="confirm_password" placeholder="Confirm Password" required><br><br>
-    <button type="submit" name="signup">Sign Up</button>
-</form>
+<script>
+    function toggleForms() {
+        var loginForm = document.getElementById('login-form');
+        var signupForm = document.getElementById('signup-form');
 
-</body>
-</html>
+        // Toggle visibility of forms
+        loginForm.style.display = (loginForm.style.display === 'none') ? 'block' : 'none';
+        signupForm.style.display = (signupForm.style.display === 'none') ? 'block' : 'none';
+    }
+</script>
 
-    <script>
-        function toggleForms() {
-            var loginContainer = document.querySelector('.login-container');
-            var signupContainer = document.querySelector('.signup-container');
-
-            loginContainer.classList.toggle('d-none');
-            signupContainer.classList.toggle('d-none');
-        }
-    </script>
 </body>
 </html>

@@ -5,9 +5,6 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] != 'user') {
     exit();
 }
 ?>
-<h1>Selamat datang di halaman user</h1>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

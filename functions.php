@@ -33,7 +33,7 @@ function displayTickets($conn) {
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nama Konser</th>
+                        <th>Nama Konser - Tanggal</th>
                         <th>Harga</th>
                         <th>Actions</th>
                     </tr>
