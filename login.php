@@ -2,6 +2,10 @@
 session_start();
 include 'database.php'; // Menghubungkan ke database
 
+// Inisialisasi variabel error
+$login_error = '';
+$signup_error = '';
+
 // Cek jika form login dikirim
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     // Mengambil data dari form login
@@ -9,8 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     $password = $_POST['password'];
 
     // Query untuk mencari user berdasarkan email
-    $sql = "SELECT * FROM akun WHERE email = '$email'";
-    $result = $conn->query($sql);
+    $sql = "SELECT * FROM akun WHERE email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         // Mengambil data user
@@ -21,15 +28,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
             $_SESSION['email'] = $user['email'];
             $_SESSION['role'] = $user['role'];  // Store role if needed
             $_SESSION['username'] = $user['username'];  // Add username to session
-            $_SESSION['avatar'] = $user['avatar']; // Menyimpan peran pengguna (user/admin)
-            echo "<script>alert('Login berhasil! Selamat datang, " . $user['email'] . "');</script>";
-            header("Location: login.php"); // Arahkan kembali ke halaman login setelah login
+            $_SESSION['avatar'] = $user['avatar']; // Menyimpan avatar pengguna
+
+            // Arahkan berdasarkan role
+            if ($user['role'] == 'admin') {
+                header("Location: manage.php"); // Arahkan ke halaman admin
+            } elseif ($user['role'] == 'user') {
+                header("Location: home.php"); // Arahkan ke halaman user
+            } else {
+                header("Location: home3.php"); // Arahkan ke halaman lainnya (misalnya 'manager')
+            }
+            exit();
         } else {
-            // Password tidak cocok
             $login_error = "Password salah!";
         }
     } else {
-        // email tidak ditemukan
         $login_error = "Email tidak ditemukan!";
     }
 }
@@ -50,14 +63,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['signup'])) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // Tentukan peran default (misalnya 'user')
-        $role = 'user'; // Anda bisa mengubahnya sesuai dengan kebutuhan
+        $role = 'user'; // Anda bisa mengubahnya menjadi 'admin' atau 'manager' jika diperlukan
 
         // Query untuk menyimpan data pengguna baru
-        $sql = "INSERT INTO akun (username, email, password, role) VALUES ('$username', '$email', '$hashed_password', '$role')";
-        
-        if ($conn->query($sql) === TRUE) {
-            echo "<script>alert('Registrasi berhasil!');</script>";
-            header("Location: login.php"); // Arahkan ke halaman login setelah registrasi
+        $sql = "INSERT INTO akun (username, email, password, role) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ssss', $username, $email, $hashed_password, $role);
+
+        if ($stmt->execute()) {
+            header("Location: login.php?status=registered"); // Arahkan ke login setelah registrasi
+            exit();
         } else {
             $signup_error = "Terjadi kesalahan saat mendaftar: " . $conn->error;
         }
@@ -69,18 +84,20 @@ if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
     header("Location: login.php"); // Arahkan ke halaman login setelah logout
+    exit();
 }
 
 // Menutup koneksi
 $conn->close();
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Encore Shield</title>
+    <title>Login & Sign Up</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -117,84 +134,38 @@ $conn->close();
             transform: translateY(4px);
         }
     </style>
+
 </head>
 <body>
-                <a href="home.php">
-                <button class="btn btn-bck">Home</button>
-                 </a>
-                 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
-        <?php if (isset($_SESSION['email'])) { ?>
-            <!-- Jika pengguna sudah login -->
-            <div class="login-container text-center">
-                <h2 class="mb-4">Hallo selamat datang!! <br><?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; ?></h2>
-                <div class="loading" id="loading">
-                    <div class="spinner"></div>
-                    <img src="https://lh3.googleusercontent.com/proxy/9rLje0-3FNznCiW_PB26zLjadDVYYEDc6WyBUIcYBKXfbLZN8VMuPw_lBCo2FRl6ap4JPSUJGCqL8Q6FFb3oNEOY2JGJPKfGq_LdtfcP6nnp3dCWqZwQ27aW8_hbp3Zxcy9_rWFxryXb" alt="Loading...">
-                </div>
-            </div>
-            <script>
-                // Tampilkan loading setelah login berhasil
-                document.addEventListener('DOMContentLoaded', function () {
-                    var loadingElement = document.getElementById('loading');
-                    loadingElement.style.display = 'block'; // Menampilkan loading
-                    setTimeout(function () {
-                        loadingElement.style.display = 'none'; // Menghilangkan loading setelah 3 detik
-                        window.location.href = 'home.php'; // Redirect ke halaman Home
-                    }, 2000); 
-                });
-            </script>
-        <?php } else { ?>
-            <!-- Jika pengguna belum login, tampilkan form login -->
-            <div class="login-container">
-                <h2 class="text-center mb-4">Welcome To Encore Shield</h2>
-                <?php if (isset($login_error)) { ?>
-                    <div class="alert alert-danger"><?php echo $login_error; ?></div>
-                <?php } ?>
-                <form method="post" action="">
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block" name="login">Login</button>
-                </form>
-            </div>
-        <?php } ?>
-    </div>
 
-            
-            <div class="signup-container d-none">
-                <h2 class="text-center mb-4">Welcome To Encore Shield</h2>
-                <?php if (isset($signup_error)) { ?>
-                    <div class="alert alert-danger"><?php echo $signup_error; ?></div>
-                <?php } ?>
-                <form method="post" action="">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="confirm_password">Confirm Password</label>
-                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block" name="signup">Sign Up</button>
-                    <div class="text-center mt-3">
-                        <a href="#" onclick="toggleForms()">Already have an account? Sign in now</a>
-                    </div>
-                </form>
-            </div>
-        </div>
+<!-- Form Login -->
+<h2>Login</h2>
+<?php if (!empty($login_error)): ?>
+    <div style="color: red;"><?php echo $login_error; ?></div>
+<?php endif; ?>
+<form action="login.php" method="post">
+    <input type="email" name="email" placeholder="Email" required><br><br>
+    <input type="password" name="password" placeholder="Password" required><br><br>
+    <button type="submit" name="login">Login</button>
+</form>
+
+<hr>
+
+<!-- Form Sign Up -->
+<h2>Sign Up</h2>
+<?php if (!empty($signup_error)): ?>
+    <div style="color: red;"><?php echo $signup_error; ?></div>
+<?php endif; ?>
+<form action="login.php" method="post">
+    <input type="text" name="username" placeholder="Username" required><br><br>
+    <input type="email" name="email" placeholder="Email" required><br><br>
+    <input type="password" name="password" placeholder="Password" required><br><br>
+    <input type="password" name="confirm_password" placeholder="Confirm Password" required><br><br>
+    <button type="submit" name="signup">Sign Up</button>
+</form>
+
+</body>
+</html>
 
     <script>
         function toggleForms() {

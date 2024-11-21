@@ -1,7 +1,12 @@
- <?php
+<?php
 session_start();
+if (!isset($_SESSION['username']) || $_SESSION['role'] != 'user') {
+    header('Location: login.php');
+    exit();
+}
+?>
+<h1>Selamat datang di halaman user</h1>
 
-?> 
 
 <!DOCTYPE html>
 <html lang="en">

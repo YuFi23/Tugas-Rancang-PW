@@ -1,7 +1,7 @@
 <? 
 include 'database.php';
 
-$query = "SELECT * FROM user";
+$query = "SELECT * FROM akun";
 $result = $conn->query($query);
 
 if($result) 
