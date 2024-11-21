@@ -37,12 +37,12 @@ if (isset($_POST['create'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encore Shield Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJX3+0fOmVmXZtFk7p8eB6vXLR6HoHEqx0g1cUs0VWx9E3behl6fd7lktH3a" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css"> <!-- Pastikan sudah ada file styles.css -->
     <link rel="stylesheet" href="table.css"> <!-- Pastikan sudah ada file table.css -->
 </head>
 
 <body>
-
     <div class="container">
         <div class="card">
             <div class="card-header">

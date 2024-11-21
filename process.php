@@ -29,6 +29,60 @@ if (isset($_POST['create'])) {
     $conn->close();
 }
 
+// Proses Delete Tiket
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+
+    // Periksa koneksi
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Gunakan prepared statement untuk menghapus tiket berdasarkan ID
+    $stmt = $conn->prepare("DELETE FROM tiket WHERE id = ?");
+    $stmt->bind_param("i", $id);
+
+    if ($stmt->execute()) {
+        // Redirect ke halaman manage.php setelah tiket dihapus
+        header('Location: manage.php');
+        exit();
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    // Tutup statement dan koneksi
+    $stmt->close();
+    $conn->close();
+}
+
+// Proses Update Tiket
+if (isset($_POST['update'])) {
+    $id = $_POST['id'];
+    $namakonser = $_POST['namakonser'];
+    $price = $_POST['price'];
+
+    // Periksa koneksi
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Gunakan prepared statement untuk mengupdate tiket berdasarkan ID
+    $stmt = $conn->prepare("UPDATE tiket SET namakonser = ?, price = ? WHERE id = ?");
+    $stmt->bind_param("sii", $namakonser, $price, $id);
+
+    if ($stmt->execute()) {
+        // Redirect ke halaman manage.php setelah tiket diupdate
+        header('Location: manage.php');
+        exit();
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    // Tutup statement dan koneksi
+    $stmt->close();
+    $conn->close();
+}
+
 // Koneksi untuk menampilkan tiket
 include 'database.php';
 
@@ -50,6 +104,7 @@ if ($result->num_rows > 0) {
                     <th>ID</th>
                     <th>Nama Konser</th>
                     <th>Harga</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>";
@@ -59,6 +114,10 @@ if ($result->num_rows > 0) {
                 <td>" . $row["id"]. "</td>
                 <td>" . $row["namakonser"]. "</td>
                 <td>" . $row["price"]. "</td>
+                <td>
+                    <a href='edit.php?id=" . $row['id'] . "'>Edit</a> | 
+                    <a href='manage.php?delete=" . $row['id'] . "'>Delete</a>
+                </td>
               </tr>";
     }
     echo "</tbody></table>";

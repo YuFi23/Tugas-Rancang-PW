@@ -12,6 +12,8 @@ $row = getTicketFromRequest($conn); // Mengambil data tiket berdasarkan ID
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Ticket</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="table.css">
 </head>
 <body>
 

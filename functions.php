@@ -24,6 +24,7 @@ function createTicket($conn, $namakonser, $price) {
 }
 
 // Fungsi untuk menampilkan daftar tiket
+// Fungsi untuk menampilkan daftar tiket
 function displayTickets($conn) {
     $sql = "SELECT * FROM tiket";
     $result = $conn->query($sql);
@@ -44,9 +45,9 @@ function displayTickets($conn) {
                     <td>" . $row['id'] . "</td>
                     <td>" . $row['namakonser'] . "</td>
                     <td>" . number_format($row['price'], 0, ',', '.') . "</td>
-                    <td>
-                        <a href='edit.php?id=" . $row['id'] . "' class='btn btn-primary'>Edit</a>
-                        <a href='process.php?delete=" . $row['id'] . "' class='btn btn-danger'>Delete</a>
+                     <td>
+                        <a href='edit.php?id=" . $row['id'] . "' class='btn-edit'>Edit</a>
+                        <a href='process.php?delete=" . $row['id'] . "' class='btn-delete'>Delete</a>
                     </td>
                   </tr>";
         }
@@ -55,6 +56,7 @@ function displayTickets($conn) {
         echo "<p>No tickets found.</p>";
     }
 }
+
 
 // Fungsi untuk menghapus tiket berdasarkan ID
 function deleteTicket($conn, $id) {
