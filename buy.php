@@ -41,7 +41,7 @@ $result = $conn->query("SELECT * FROM konser");
         <?php while ($row = $result->fetch_assoc()): ?>
     <div class="concert-card">
         <img src="img/<?php echo $row['gambar']; ?>" alt="<?php echo $row['nama_artis']; ?> Concert" />
-        <h3><?php echo $row['nama_artis']; ?> - <?php echo date('d F Y', strtotime($row['tanggal'])); ?></h3>
+        <h3><?php echo $row['nama_artis']; ?> - <?php echo date('d F Y', strtotime($row['tanggal'])); ?><br><?php echo $row['tempat']; ?></h3>
         <a href="pesen.php?concert=<?php echo $row['id']; ?>">
             <button>
                 <span>BUY TICKET</span>

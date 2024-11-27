@@ -38,10 +38,13 @@ if ($concert_id) {
                 <img src="img/<?php echo $concert['gambar']; ?>" alt="Concert Image" class="event-image">
                 <div class="event-info">
                     <h1><?php echo $concert['nama_artis']; ?> - <?php echo date('d F Y', strtotime($concert['tanggal'])); ?></h1>
+                    <h1><?php echo $concert['tempat']; ?></h1>
                 </div>
             </div>
             <div class="form-section">
-                <form action="" method="POST">
+                <form action="validasiPembayaran.php" method="POST">
+                    <input type="hidden" name="concert_id" value="<?php echo $concert['id']; ?>">
+
                     <label for="name">Nama:</label>
                     <input type="text" id="name" name="name" required>
 
@@ -51,21 +54,18 @@ if ($concert_id) {
                     <label for="phone">No Telp:</label>
                     <input type="tel" id="phone" name="phone" required>
 
+                    <label for="ticket_type">Pilih Tiket:</label>
+                    <select id="ticket_type" name="ticket_type" required>
+                        <option value="VIP">VIP (<?php echo number_format($concert['harga'] * 2, 0, ',', '.'); ?>,-)</option>
+                        <option value="Regular">Regular (<?php echo number_format($concert['harga'], 0, ',', '.'); ?>,-)</option>
+                    </select>
+
                     <label for="payment">Metode Pembayaran:</label>
                     <select id="payment" name="payment_method" required>
                         <option value="qris">QRIS</option>
                     </select>
 
-                    <div class="price-info">
-                        <p>VIP: <?php echo number_format($concert['harga'] * 2, 0, ',', '.'); ?>,-</p>
-                        <p>Regular: <?php echo number_format($concert['harga'], 0, ',', '.'); ?>,-</p>
-                    </div>
-                    <div class="buy-button">
-                        <a href="validasiPembayaran.php?concert_id=<?php echo $concert['id']; ?>&ticket_type=VIP&name=<?php echo urlencode($name); ?>&email=<?php echo urlencode($email); ?>&phone=<?php echo urlencode($phone); ?>" href="https://saweria.co/YuFi" target="_blank">BUY VIP</a>
-                    </div>
-                    <div class="buy-button">
-                        <a href="validasiPembayaran.php?concert_id=<?php echo $concert['id']; ?>&ticket_type=Regular&name=<?php echo urlencode($name); ?>&email=<?php echo urlencode($email); ?>&phone=<?php echo urlencode($phone); ?>" href="https://saweria.co/YuFi" target="_blank">BUY REGULAR</a>
-                    </div>
+                    <button type="submit" class="validate-button">Lanjutkan ke Validasi</button>
                 </form>
             </div>
             <?php else: ?>

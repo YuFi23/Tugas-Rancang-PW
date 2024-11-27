@@ -1,8 +1,11 @@
-<?php include('database.php');
+<?php
+include('database.php');
+
+
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
-    header("Location: login.php"); 
+    header("Location: login.php");
     exit();
 }
 ?>
@@ -31,37 +34,44 @@ if (isset($_GET['logout'])) {
             <table>
                 <thead>
                     <tr>
-                        <th>Nama Pelanggan by email</th>
+                        <th>Nama Pelanggan</th>
+                        <th>Email</th>
+                        <th>No. Telpon</th>
                         <th>Tipe Tiket</th>
                         <th>Nama Konser</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php
-                    if (isset($_POST['add'])) {
-                        $nama_pelanggan = $_POST['nama_pelanggan'];
-                        $tipe_kursi = $_POST['tipe_kursi'];
-                        $nama_konser = $_POST['nama_konser'];
-                        $conn->query("INSERT INTO pesanan (nama_pelanggan, tipe_kursi, nama_konser) VALUES ('$nama_pelanggan', '$tipe_kursi', '$nama_konser')");
-                    }
+             
+                $query = "
+                    SELECT 
+                        pembayaran.name AS nama_pelanggan, 
+                        pembayaran.email, 
+                        pembayaran.phone, 
+                        pembayaran.ticket_type, 
+                        konser.nama_artis AS nama_konser
+                    FROM pembayaran
+                    LEFT JOIN konser ON pembayaran.concert_id = konser.id
+                    WHERE pembayaran.payment_status = 'Validated'
+                ";
 
-                    if (isset($_GET['delete'])) {
-                        $id = $_GET['delete'];
-                        $conn->query("DELETE FROM pesanan WHERE id=$id");
-                    }
-                    $result = $conn->query("SELECT * FROM pesanan");
+                $result = $conn->query($query);
+
+                if ($result && $result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>
-                                <td>{$row['id']}</td>
                                 <td>{$row['nama_pelanggan']}</td>
-                                <td>{$row['tipe_kursi']}</td>
+                                <td>{$row['email']}</td>
+                                <td>{$row['phone']}</td>
+                                <td>{$row['ticket_type']}</td>
                                 <td>{$row['nama_konser']}</td>
-                                <td>
-                                    <a href='daftar_pesanan.php?delete={$row['id']}'>Hapus</a>
-                                </td>
                               </tr>";
                     }
-                    ?>
+                } else {
+                    echo "<tr><td colspan='5'>Belum ada pesanan yang divalidasi.</td></tr>";
+                }
+                ?>
                 </tbody>
             </table>
         </div>
