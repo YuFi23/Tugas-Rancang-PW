@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
 
             // Arahkan berdasarkan role
             if ($user['role'] == 'admin') {
-                header("Location: manage.php"); // Arahkan ke halaman admin
+                header("Location: DataPelanggan.php"); // Arahkan ke halaman admin
             } elseif ($user['role'] == 'user') {
                 header("Location: home.php"); // Arahkan ke halaman user
             } else {
@@ -90,7 +90,6 @@ if (isset($_GET['logout'])) {
 // Menutup koneksi
 $conn->close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -179,37 +178,47 @@ $conn->close();
 </head>
 <body>
 
-<div class="form-container">
+<?php if (isset($_SESSION['username'])): ?>
+    <!-- Dashboard for logged-in users -->
+    <div class="container">
+        <h2>Welcome, <?php echo $_SESSION['username']; ?>!</h2>
+        <img src="<?php echo $_SESSION['avatar']; ?>" alt="Avatar" width="100" height="100">
+        <p>You are logged in as <?php echo $_SESSION['role']; ?>.</p>
+        <a href="logout.php?logout=true" class="btn btn-danger">Logout</a>
+    </div>
+<?php else: ?>
     <!-- Form Login -->
-    <div id="login-form">
-        <h2>Login</h2>
-        <?php if (!empty($login_error)): ?>
-            <div class="error-message"><?php echo $login_error; ?></div>
-        <?php endif; ?>
-        <form action="login.php" method="post">
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit" name="login">Login</button>
-        </form>
-        <a href="#" class="toggle-link" onclick="toggleForms('signup')">Don't have an account? Sign Up</a>
-    </div>
+    <div class="form-container">
+        <div id="login-form">
+            <h2>Login</h2>
+            <?php if (!empty($login_error)): ?>
+                <div class="error-message"><?php echo $login_error; ?></div>
+            <?php endif; ?>
+            <form action="login.php" method="post">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit" name="login">Login</button>
+            </form>
+            <a href="#" class="toggle-link" onclick="toggleForms('signup')">Don't have an account? Sign Up</a>
+        </div>
 
-    <!-- Form Sign Up -->
-    <div id="signup-form" style="display: none;">
-        <h2>Sign Up</h2>
-        <?php if (!empty($signup_error)): ?>
-            <div class="error-message"><?php echo $signup_error; ?></div>
-        <?php endif; ?>
-        <form action="login.php" method="post">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-            <button type="submit" name="signup">Sign Up</button>
-        </form>
-        <a href="#" class="toggle-link" onclick="toggleForms('login')">Already have an account? Login</a>
+        <!-- Form Sign Up -->
+        <div id="signup-form" style="display: none;">
+            <h2>Sign Up</h2>
+            <?php if (!empty($signup_error)): ?>
+                <div class="error-message"><?php echo $signup_error; ?></div>
+            <?php endif; ?>
+            <form action="login.php" method="post">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                <button type="submit" name="signup">Sign Up</button>
+            </form>
+            <a href="#" class="toggle-link" onclick="toggleForms('login')">Already have an account? Login</a>
+        </div>
     </div>
-</div>
+<?php endif; ?>
 
 <script>
     function toggleForms(form) {
