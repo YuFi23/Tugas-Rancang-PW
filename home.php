@@ -22,14 +22,11 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] != 'user') {
             <li><a href="home.php">HOME</a></li>
             <li><a href="about.php">ABOUT US</a></li>
             <li><a href="contact.php">CONTACT US</a></li>
-          <!-- Bagian user-avatarr -->
 <?php if (isset($_SESSION['email'])): ?>
     <li class="user-avatarr">
-        <!-- Avatar yang dapat diklik -->
         <img src="img/<?php echo isset($_SESSION['avatar']) ? $_SESSION['avatar'] : 'avatar.png'; ?>" alt="Avatar" class="avatarr" id="avatar">
         
 
-        <!-- Dropdown Menu -->
         <div class="dropdown-menu" id="dropdown-menu">
             <p class="user-name"><?php echo $_SESSION['username']; ?></p>
             <a href="logout.php" class="logout">Logout</a>
@@ -71,7 +68,6 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] != 'user') {
             <p>672023005</p>
         </div>
     </div>
-
     <div class="container">
         <section class="about-section section">
             <p>

@@ -21,11 +21,9 @@ session_start();
             <li><a href="contact.php">CONTACT US</a></li>
             <?php if (isset($_SESSION['email'])): ?>
     <li class="user-avatarr">
-        <!-- Avatar yang dapat diklik -->
         <img src="img/<?php echo isset($_SESSION['avatar']) ? $_SESSION['avatar'] : 'avatar.png'; ?>" alt="Avatar" class="avatarr" id="avatar">
         
 
-        <!-- Dropdown Menu -->
         <div class="dropdown-menu" id="dropdown-menu">
             <p class="user-name"><?php echo $_SESSION['username']; ?></p>
             <a href="logout.php" class="logout">Logout</a>

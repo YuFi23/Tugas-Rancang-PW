@@ -1,8 +1,8 @@
 <?php
-include 'functions.php'; // Include the functions file
+include 'functions.php'; 
 
-// Get the ticket data using the new function
-$row = getTicketFromRequest($conn); // Mengambil data tiket berdasarkan ID
+
+$row = getTicketFromRequest($conn); 
 
 ?>
 
@@ -13,7 +13,7 @@ $row = getTicketFromRequest($conn); // Mengambil data tiket berdasarkan ID
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Ticket</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="table.css">
+
 </head>
 <body>
 
@@ -24,7 +24,6 @@ $row = getTicketFromRequest($conn); // Mengambil data tiket berdasarkan ID
         </div>
         <div class="card-body">
             <form action="process.php" method="POST">
-                <!-- Hidden input for the ticket ID -->
                 <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
 
                 <div class="form-group">

@@ -3,7 +3,7 @@ include 'database.php';
 
 $username = $_POST['username'];
 $email = $_POST['email'];
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Mengenkripsi password
+$password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
 
 $sql = "INSERT INTO akun (username, email, password) VALUES ('$username', '$email', '$password')";
 
@@ -13,6 +13,6 @@ if ($conn->query($sql) === TRUE) {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
 
-// Menutup koneksi
+
 $conn->close();
 ?>
