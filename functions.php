@@ -1,5 +1,5 @@
 <?php
-include 'database.php';
+include 'connection.php';
 function getConcertById($conn, $id) {
 
     $query = "SELECT * FROM konser WHERE id = ?";
@@ -69,6 +69,7 @@ function updateConcert($conn, $id, $nama_artis, $tempat, $tanggal, $harga, $gamb
     }
 }
 
+
 // Fungsi untuk menghapus konser
 function deleteConcert($conn, $id) {
     $sql = "SELECT gambar FROM konser WHERE id = $id";
@@ -112,4 +113,5 @@ function getTicketFromRequest($conn) {
         return null;
     }
 }
+
 ?>

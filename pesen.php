@@ -1,5 +1,5 @@
 <?php
-include('database.php'); // Include database connection
+include('connection.php'); // Include database connection
 
 // Ambil parameter 'concert' dari URL
 $concert_id = isset($_GET['concert']) ? $_GET['concert'] : null;

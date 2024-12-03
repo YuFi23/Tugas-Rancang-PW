@@ -1,5 +1,5 @@
 <?php
-include 'database.php'; 
+include 'connection.php'; 
 include 'functions.php'; 
 
 

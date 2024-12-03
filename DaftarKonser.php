@@ -1,13 +1,78 @@
-<?php 
-include('database.php'); 
-include('functions.php'); 
+<?php
+include('connection.php');
+include('functions.php');
 
+// Logout session
 if (isset($_GET['logout'])) {
+    session_start();
     session_unset();
     session_destroy();
     header("Location: login.php");
     exit();
 }
+
+// Proses tambah konser
+if (isset($_POST['add'])) {
+    $nama_artis = $_POST['nama_artis'];
+    $tempat = $_POST['tempat'];
+    $tanggal = $_POST['tanggal'];
+    $harga = $_POST['harga'];
+    
+    // Menangani upload gambar
+    $gambar = $_FILES['gambar']['name'];
+    $gambar_tmp = $_FILES['gambar']['tmp_name'];
+    
+    // Membuat nama file gambar unik untuk menghindari duplikasi
+    $gambar_new_name = time() . '_' . $gambar;
+    
+    // Pindahkan gambar ke direktori 'img/'
+    move_uploaded_file($gambar_tmp, "img/" . $gambar_new_name);
+    
+    // Menyimpan data ke dalam database
+    $stmt = $conn->prepare("INSERT INTO konser (nama_artis, tempat, tanggal, harga, gambar) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $nama_artis, $tempat, $tanggal, $harga, $gambar_new_name);
+    $stmt->execute();
+    
+    header("Location: daftarKonser.php?added=success");
+    exit();
+}
+
+// Proses update konser
+if (isset($_POST['update'])) {
+    $id = $_POST['id'];
+    $nama_artis = $_POST['nama_artis'];
+    $tempat = $_POST['tempat'];
+    $tanggal = $_POST['tanggal'];
+    $harga = $_POST['harga'];
+
+    // Cek jika ada gambar baru yang diupload
+    if ($_FILES['gambar']['name'] != "") {
+        $gambar = $_FILES['gambar']['name'];
+        $gambar_tmp = $_FILES['gambar']['tmp_name'];
+
+        // Membuat nama file gambar unik untuk menghindari duplikasi
+        $gambar_new_name = time() . '_' . $gambar;
+
+        // Pindahkan gambar ke direktori 'img/'
+        move_uploaded_file($gambar_tmp, "img/" . $gambar_new_name);
+
+        // Update data konser dengan gambar baru
+        $stmt = $conn->prepare("UPDATE konser SET nama_artis = ?, tempat = ?, tanggal = ?, harga = ?, gambar = ? WHERE id = ?");
+        $stmt->bind_param("sssssi", $nama_artis, $tempat, $tanggal, $harga, $gambar_new_name, $id);
+    } else {
+        // Jika gambar tidak diubah, cukup update data tanpa mengganti gambar
+        $stmt = $conn->prepare("UPDATE konser SET nama_artis = ?, tempat = ?, tanggal = ?, harga = ? WHERE id = ?");
+        $stmt->bind_param("ssssi", $nama_artis, $tempat, $tanggal, $harga, $id);
+    }
+
+    if ($stmt->execute()) {
+        header("Location: daftarKonser.php?updated=success");
+        exit();
+    } else {
+        echo "Error: " . $conn->error;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +98,7 @@ if (isset($_GET['logout'])) {
             <h1>Daftar Konser</h1>
 
             <!-- Form untuk Menambah Konser -->
-            <form method="POST" action="process.php" enctype="multipart/form-data" class="form-crud">
+            <form method="POST" action="daftarKonser.php" enctype="multipart/form-data" class="form-crud">
                 <input type="text" name="nama_artis" placeholder="Nama Artis" required>
                 <input type="text" name="tempat" placeholder="Tempat" required>
                 <input type="date" name="tanggal" required>
@@ -41,13 +106,6 @@ if (isset($_GET['logout'])) {
                 <input type="file" name="gambar" accept="image/*" required>
                 <button type="submit" name="add">Tambah Konser</button>
             </form>
-
-            <!-- Pesan jika data berhasil ditambahkan -->
-            <?php
-            if (isset($_GET['added']) && $_GET['added'] == 'success') {
-                echo "<p>Data berhasil ditambahkan!</p>";
-            }
-            ?>
 
             <!-- Tabel Daftar Konser -->
             <table>
@@ -85,33 +143,34 @@ if (isset($_GET['logout'])) {
                 </tbody>
             </table>
 
-            <!-- Form Edit Konser -->
-            <?php if (isset($_GET['edit'])): 
+            <!-- Form untuk Edit Konser -->
+            <?php
+            if (isset($_GET['edit'])) {
                 $id = $_GET['edit'];
-                $edit_data = getConcertById($conn, $id);
-                if ($edit_data):
+                
+                // Mengambil data konser berdasarkan ID
+                $stmt = $conn->prepare("SELECT * FROM konser WHERE id = ?");
+                $stmt->bind_param("i", $id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $concert = $result->fetch_assoc();
+                
+                if ($concert) {
+                    ?>
+                    <!-- Form untuk mengedit konser -->
+                    <form method="POST" action="daftarKonser.php" enctype="multipart/form-data" class="form-crud">
+                        <input type="hidden" name="id" value="<?php echo $concert['id']; ?>">
+                        <input type="text" name="nama_artis" placeholder="Nama Artis" value="<?php echo $concert['nama_artis']; ?>" required>
+                        <input type="text" name="tempat" placeholder="Tempat" value="<?php echo $concert['tempat']; ?>" required>
+                        <input type="date" name="tanggal" value="<?php echo $concert['tanggal']; ?>" required>
+                        <input type="number" step="0.01" name="harga" placeholder="Harga Tiket" value="<?php echo $concert['harga']; ?>" required>
+                        <input type="file" name="gambar" accept="image/*">
+                        <button type="submit" name="update">Update Konser</button>
+                    </form>
+                    <?php
+                }
+            }
             ?>
-                <form method="POST" action="process.php" enctype="multipart/form-data" class="form-crud">
-                    <input type="hidden" name="id" value="<?php echo $edit_data['id']; ?>">
-                    <input type="text" name="nama_artis" value="<?php echo $edit_data['nama_artis']; ?>" required>
-                    <input type="text" name="tempat" value="<?php echo $edit_data['tempat']; ?>" required>
-                    <input type="date" name="tanggal" value="<?php echo $edit_data['tanggal']; ?>" required>
-                    <input type="number" step="0.01" name="harga" value="<?php echo $edit_data['harga']; ?>" required>
-
-                    <?php if (!empty($edit_data['gambar'])): ?>
-                        <label>Gambar Saat Ini:</label>
-                        <img src="img/<?php echo $edit_data['gambar']; ?>" alt="Gambar Konser" width="100">
-                    <?php else: ?>
-                        <p>Tidak ada gambar saat ini.</p>
-                    <?php endif; ?>
-
-                    <input type="file" name="gambar" accept="image/*"> <!-- Input untuk gambar baru -->
-                    <button type="submit" name="update">Update</button>
-                </form>
-            <?php else: ?>
-                <p>Data konser tidak ditemukan.</p>
-            <?php endif; ?>
-            <?php endif; ?>
         </div>
     </div>
 </body>

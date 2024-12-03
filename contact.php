@@ -20,6 +20,7 @@ session_start();
             <li><a href="home.php">HOME</a></li>
             <li><a href="about.php">ABOUT US</a></li>
             <li><a href="contact.php">CONTACT US</a></li>
+            <li><a href="Riwayat.php" class="active">RIWAYAT</a></li>
             <?php if (isset($_SESSION['email'])): ?>
     <li class="user-avatarr">
         <!-- Avatar yang dapat diklik -->

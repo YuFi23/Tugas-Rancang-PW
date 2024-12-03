@@ -1,5 +1,5 @@
 <?php
-include('database.php');
+include('connection.php');
 session_start();
 
 $result = $conn->query("SELECT * FROM konser");
@@ -22,6 +22,7 @@ $result = $conn->query("SELECT * FROM konser");
             <li><a href="home.php">HOME</a></li>
             <li><a href="about.php">ABOUT US</a></li>
             <li><a href="contact.php">CONTACT US</a></li>
+            <li><a href="Riwayat.php" class="active">RIWAYAT</a></li>
             <?php if (isset($_SESSION['email'])): ?>
             <li class="user-avatarr">
                 <img src="img/<?php echo isset($_SESSION['avatar']) ? $_SESSION['avatar'] : 'avatar.png'; ?>" alt="Avatar" class="avatarr" id="avatar">

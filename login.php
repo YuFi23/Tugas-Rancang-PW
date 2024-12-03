@@ -1,17 +1,18 @@
 <?php
 session_start();
-include 'database.php'; 
+include 'connection.php'; // Menghubungkan ke database
 
+// Inisialisasi variabel error
 $login_error = '';
 $signup_error = '';
 
-
+// Cek jika form login dikirim
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
- 
+    // Mengambil data dari form login
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-
+    // Query untuk mencari user berdasarkan email
     $sql = "SELECT * FROM akun WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('s', $email);
@@ -19,23 +20,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-
+        // Mengambil data user
         $user = $result->fetch_assoc();
         
- 
+        // Verifikasi password
         if (password_verify($password, $user['password'])) {
             $_SESSION['email'] = $user['email'];
-            $_SESSION['role'] = $user['role'];  
-            $_SESSION['username'] = $user['username'];  
-            $_SESSION['avatar'] = $user['avatar']; 
+            $_SESSION['role'] = $user['role'];  // Store role if needed
+            $_SESSION['username'] = $user['username'];  // Add username to session
+            $_SESSION['avatar'] = $user['avatar']; // Menyimpan avatar pengguna
 
-           
+            // Arahkan berdasarkan role
             if ($user['role'] == 'admin') {
-                header("Location: DataPelanggan.php"); 
+                header("Location: DataPelanggan.php"); // Arahkan ke halaman admin
             } elseif ($user['role'] == 'user') {
-                header("Location: home.php"); 
+                header("Location: home.php"); // Arahkan ke halaman user
             } else {
-                header("Location: home3.php"); 
+                header("Location: home3.php"); // Arahkan ke halaman lainnya (misalnya 'manager')
             }
             exit();
         } else {
@@ -46,28 +47,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     }
 }
 
-
+// Cek jika form signup dikirim
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['signup'])) {
-
+    // Mengambil data dari form signup
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
+    // Verifikasi apakah password dan konfirmasi password cocok
     if ($password != $confirm_password) {
         $signup_error = "Password dan konfirmasi password tidak cocok!";
     } else {
-   
+        // Hash password sebelum disimpan
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        
-        $role = 'user'; 
+        // Tentukan peran default (misalnya 'user')
+        $role = 'user'; // Anda bisa mengubahnya menjadi 'admin' atau 'manager' jika diperlukan
+
+        // Query untuk menyimpan data pengguna baru
         $sql = "INSERT INTO akun (username, email, password, role) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('ssss', $username, $email, $hashed_password, $role);
 
         if ($stmt->execute()) {
-            header("Location: login.php?status=registered"); 
+            header("Location: login.php?status=registered"); // Arahkan ke login setelah registrasi
             exit();
         } else {
             $signup_error = "Terjadi kesalahan saat mendaftar: " . $conn->error;
@@ -75,15 +79,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['signup'])) {
     }
 }
 
-
+// Fungsi Logout
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
-    header("Location: login.php"); 
+    header("Location: login.php"); // Arahkan ke halaman login setelah logout
     exit();
 }
 
-
+// Menutup koneksi
 $conn->close();
 ?>
 
@@ -175,6 +179,7 @@ $conn->close();
 <body>
 
 <?php if (isset($_SESSION['username'])): ?>
+    <!-- Dashboard for logged-in users -->
     <div class="container">
         <h2>Welcome, <?php echo $_SESSION['username']; ?>!</h2>
         <img src="<?php echo $_SESSION['avatar']; ?>" alt="Avatar" width="100" height="100">
