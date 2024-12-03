@@ -4,19 +4,19 @@
     box-sizing: border-box;
 }
 
-.merk {
-    color: white; 
-    font-size: 24px;
-    font-weight: bold;
-    margin-right: 50px; 
-}
-
 body {
     background-image: url("img/b6c0cc3d04a8e2cc4b2e6a4b7144764b.jpeg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     font-family: Arial, sans-serif;
+}
+
+.merk {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 50px;
 }
 
 .navbar {
@@ -29,11 +29,11 @@ body {
 }
 
 .menu-toggle {
-    display: none; 
+    display: none;
 }
 
 .menu-icon {
-    display: none; 
+    display: none;
     font-size: 24px;
     color: white;
     cursor: pointer;
@@ -64,7 +64,7 @@ body {
 
 @media (max-width: 768px) {
     .nav-links {
-        display: none; 
+        display: none;
         flex-direction: column;
         width: 100%;
         background-color: #333;
@@ -74,15 +74,15 @@ body {
     }
 
     .menu-toggle:checked + .menu-icon + .nav-links {
-        display: flex; 
+        display: flex;
     }
 
     .menu-icon {
-        display: block; 
+        display: block;
     }
 
     .nav-links li {
-        width: 100%; 
+        width: 100%;
     }
 
     .nav-links a {
@@ -99,7 +99,6 @@ body {
     margin-top: 20px;
 }
 
-/* Kartu konser */
 .concert-card {
     background-color: #333;
     padding: 20px;
@@ -108,46 +107,21 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 400px;  /* Tentukan tinggi kartu */
-    width: 100%;    /* Pastikan lebar kartu mengikuti grid */
+    height: 400px;
+    width: 100%;
     box-sizing: border-box;
     border-radius: 5px;
+    overflow: hidden;
 }
 
-/* Kartu konser */
-.concert-card {
-    background-color: #333;
-    padding: 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    height: 400px;  /* Tentukan tinggi kartu */
-    width: 100%;    /* Pastikan lebar kartu mengikuti grid */
-    box-sizing: border-box;
-    border-radius: 5px;
-    overflow: hidden;  /* Pastikan gambar yang ter-crop tidak keluar dari area */
-}
-
-/* Gambar dalam kartu konser */
 .concert-card img {
-    width: 100%;         /* Gambar memenuhi lebar kartu */
-    height: 100%;        /* Gambar memenuhi tinggi kartu */
-    object-fit: cover;   /* Memastikan gambar akan ter-crop sesuai ukuran container */
-    object-position: center;  /* Memastikan gambar tetap terpusat */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
     border-radius: 5px;
 }
 
-/* Grid untuk menampilkan kartu konser */
-.concert-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);  /* Menampilkan 3 kolom */
-    gap: 20px;
-    margin-top: 20px;
-}
-
-/* Tombol beli tiket */
 .concert-card button {
     background-color: #f00;
     color: #fff;
@@ -159,7 +133,6 @@ body {
     transition: all 0.5s;
 }
 
-/* Tombol beli tiket dengan animasi */
 .concert-card button span {
     cursor: pointer;
     display: inline-block;
@@ -185,16 +158,12 @@ body {
     right: 0;
 }
 
-
-
-
-/* Mengatur ukuran avatar di navbar */
 .navbar .user-avatarr img {
-    width: 40px; /* Menyesuaikan ukuran avatar */
-    height: 40px; /* Memastikan proporsi tetap sama */
-    border-radius: 50%; /* Membuat gambar menjadi lingkaran */
-    object-fit: cover; /* Memastikan gambar tidak terdistorsi */
-    margin-right: 10px; /* Memberikan jarak antara gambar dan username */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
 }
 
 .user-avatarr {
@@ -203,9 +172,9 @@ body {
 }
 
 .user-avatarr .dropdown-menu {
-    display: none; /* Sembunyikan menu dropdown secara default */
+    display: none;
     position: absolute;
-    top: 50px; /* Menyesuaikan posisi menu dropdown */
+    top: 50px;
     right: 0;
     background-color: #333;
     color: white;
@@ -231,5 +200,5 @@ body {
 }
 
 .user-avatarr .dropdown-menu .logout:hover {
-    background-color: #555; /* Warna saat hover */
+    background-color: #555;
 }
