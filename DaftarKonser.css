@@ -1,11 +1,10 @@
-/* Reset styling */
+ 
 body, h1, h2, ul, li, table, th, td {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body styling */
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -13,13 +12,11 @@ body {
     background-color: #f5f5f5;
 }
 
-/* Container */
 .container {
     display: flex;
     width: 100%;
 }
 
-/* Sidebar styling */
 .sidebar {
     width: 250px;
     background-color: #333;
@@ -64,7 +61,6 @@ body {
     background-color: #666;
 }
 
-/* Main content styling */
 .main-content {
     flex-grow: 1;
     padding: 20px;
@@ -94,7 +90,7 @@ th, td {
 tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
-/* Tombol Logout di sidebar */
+
 .logout-btn {
     display: block;
     text-decoration: none;
@@ -110,3 +106,13 @@ tbody tr:nth-child(even) {
 .logout-btn:hover {
     background-color: #c0392b;
 }
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid red;
+    background-color: #f8d7da;
+    border-radius: 5px;
+}
+

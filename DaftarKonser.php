@@ -2,7 +2,6 @@
 include('connection.php');
 include('functions.php');
 
-// Logout session
 if (isset($_GET['logout'])) {
     session_start();
     session_unset();
@@ -11,42 +10,18 @@ if (isset($_GET['logout'])) {
     exit();
 }
 
-
 if (isset($_POST['add'])) {
     $nama_artis = $_POST['nama_artis'];
     $tempat = $_POST['tempat'];
     $tanggal = $_POST['tanggal'];
     $harga = $_POST['harga'];
-    
-    // Menangani upload gambar
-    $gambar = $_FILES['gambar']['name'];
-    $gambar_tmp = $_FILES['gambar']['tmp_name'];
-    
+    $stock = $_POST['stock'];
 
-    $gambar_new_name = time() . '_' . $gambar;
-    
-
-    move_uploaded_file($gambar_tmp, "img/" . $gambar_new_name);
-    
-
-    $stmt = $conn->prepare("INSERT INTO konser (nama_artis, tempat, tanggal, harga, gambar) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $nama_artis, $tempat, $tanggal, $harga, $gambar_new_name);
-    $stmt->execute();
-    
-    header("Location: daftarKonser.php?added=success");
-    exit();
-}
-
-
-if (isset($_POST['update'])) {
-    $id = $_POST['id'];
-    $nama_artis = $_POST['nama_artis'];
-    $tempat = $_POST['tempat'];
-    $tanggal = $_POST['tanggal'];
-    $harga = $_POST['harga'];
-
-
-    if ($_FILES['gambar']['name'] != "") {
+    if ($harga < 0) {
+        $error_message = "Harga tiket tidak boleh negatif.";
+    } elseif ($stock < 0) {
+        $error_message = "Jumlah stok tidak boleh negatif.";
+    } else {
         $gambar = $_FILES['gambar']['name'];
         $gambar_tmp = $_FILES['gambar']['tmp_name'];
 
@@ -54,21 +29,51 @@ if (isset($_POST['update'])) {
 
         move_uploaded_file($gambar_tmp, "img/" . $gambar_new_name);
 
-        $stmt = $conn->prepare("UPDATE konser SET nama_artis = ?, tempat = ?, tanggal = ?, harga = ?, gambar = ? WHERE id = ?");
-        $stmt->bind_param("sssssi", $nama_artis, $tempat, $tanggal, $harga, $gambar_new_name, $id);
-    } else {
-        $stmt = $conn->prepare("UPDATE konser SET nama_artis = ?, tempat = ?, tanggal = ?, harga = ? WHERE id = ?");
-        $stmt->bind_param("ssssi", $nama_artis, $tempat, $tanggal, $harga, $id);
-    }
+        $stmt = $conn->prepare("INSERT INTO konser (nama_artis, tempat, tanggal, harga, gambar, stock) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssi", $nama_artis, $tempat, $tanggal, $harga, $gambar_new_name, $stock); // Bind stock
+        $stmt->execute();
 
-    if ($stmt->execute()) {
-        header("Location: daftarKonser.php?updated=success");
+        header("Location: daftarKonser.php?added=success");
         exit();
-    } else {
-        echo "Error: " . $conn->error;
     }
 }
 
+if (isset($_POST['update'])) {
+    $id = $_POST['id'];
+    $nama_artis = $_POST['nama_artis'];
+    $tempat = $_POST['tempat'];
+    $tanggal = $_POST['tanggal'];
+    $harga = $_POST['harga'];
+    $stock = $_POST['stock']; 
+
+    if ($harga < 0) {
+        $error_message = "Harga tiket tidak boleh negatif.";
+    } elseif ($stock < 0) {
+        $error_message = "Jumlah stok tidak boleh negatif.";
+    } else {
+        if ($_FILES['gambar']['name'] != "") {
+            $gambar = $_FILES['gambar']['name'];
+            $gambar_tmp = $_FILES['gambar']['tmp_name'];
+
+            $gambar_new_name = time() . '_' . $gambar;
+
+            move_uploaded_file($gambar_tmp, "img/" . $gambar_new_name);
+
+            $stmt = $conn->prepare("UPDATE konser SET nama_artis = ?, tempat = ?, tanggal = ?, harga = ?, gambar = ?, stock = ? WHERE id = ?");
+            $stmt->bind_param("ssssssi", $nama_artis, $tempat, $tanggal, $harga, $gambar_new_name, $stock, $id); 
+        } else {
+            $stmt = $conn->prepare("UPDATE konser SET nama_artis = ?, tempat = ?, tanggal = ?, harga = ?, stock = ? WHERE id = ?");
+            $stmt->bind_param("sssssi", $nama_artis, $tempat, $tanggal, $harga, $stock, $id);
+        }
+
+        if ($stmt->execute()) {
+            header("Location: daftarKonser.php?updated=success");
+            exit();
+        } else {
+            echo "Error: " . $conn->error;
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -93,17 +98,22 @@ if (isset($_POST['update'])) {
         <div class="main-content">
             <h1>Daftar Konser</h1>
 
-            <!-- Form untuk Menambah Konser -->
+            <?php
+            if (isset($error_message)) {
+                echo "<div class='error-message'>$error_message</div>";
+            }
+            ?>
+
             <form method="POST" action="daftarKonser.php" enctype="multipart/form-data" class="form-crud">
                 <input type="text" name="nama_artis" placeholder="Nama Artis" required>
                 <input type="text" name="tempat" placeholder="Tempat" required>
                 <input type="date" name="tanggal" required>
                 <input type="number" step="0.01" name="harga" placeholder="Harga Tiket" required>
+                <input type="number" name="stock" placeholder="Jumlah Stock" required> <!-- New stock field -->
                 <input type="file" name="gambar" accept="image/*" required>
                 <button type="submit" name="add">Tambah Konser</button>
             </form>
 
-            <!-- Tabel Daftar Konser -->
             <table>
                 <thead>
                     <tr>
@@ -112,6 +122,7 @@ if (isset($_POST['update'])) {
                         <th>Tempat</th>
                         <th>Tanggal</th>
                         <th>Harga</th>
+                        <th>Stock</th> 
                         <th>Gambar</th>
                         <th>Aksi</th>
                     </tr>
@@ -127,6 +138,7 @@ if (isset($_POST['update'])) {
                             <td>{$row['tempat']}</td>
                             <td>{$row['tanggal']}</td>
                             <td>{$row['harga']}</td>
+                            <td>{$row['stock']}</td> <!-- Display stock -->
                             <td><img src='img/{$row['gambar']}' width='100'></td>
                             <td>
                                 <a href='daftarKonser.php?edit={$row['id']}'>Edit</a> |
@@ -142,13 +154,13 @@ if (isset($_POST['update'])) {
             <?php
             if (isset($_GET['edit'])) {
                 $id = $_GET['edit'];
-                
+
                 $stmt = $conn->prepare("SELECT * FROM konser WHERE id = ?");
                 $stmt->bind_param("i", $id);
                 $stmt->execute();
                 $result = $stmt->get_result();
                 $concert = $result->fetch_assoc();
-                
+
                 if ($concert) {
                     ?>
                     <form method="POST" action="daftarKonser.php" enctype="multipart/form-data" class="form-crud">
@@ -157,6 +169,7 @@ if (isset($_POST['update'])) {
                         <input type="text" name="tempat" placeholder="Tempat" value="<?php echo $concert['tempat']; ?>" required>
                         <input type="date" name="tanggal" value="<?php echo $concert['tanggal']; ?>" required>
                         <input type="number" step="0.01" name="harga" placeholder="Harga Tiket" value="<?php echo $concert['harga']; ?>" required>
+                        <input type="number" name="stock" placeholder="Jumlah Stock" value="<?php echo $concert['stock']; ?>" required> <!-- Edit stock -->
                         <input type="file" name="gambar" accept="image/*">
                         <button type="submit" name="update">Update Konser</button>
                     </form>
@@ -166,5 +179,15 @@ if (isset($_POST['update'])) {
             ?>
         </div>
     </div>
+     <script>
+        window.onload = function() {
+            var errorMessage = document.querySelector('.error-message');
+            if (errorMessage) {
+                setTimeout(function() {
+                    errorMessage.style.display = 'none';
+                }, 3000); 
+            }
+        };
+    </script>
 </body>
 </html>
