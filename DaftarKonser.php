@@ -11,7 +11,7 @@ if (isset($_GET['logout'])) {
     exit();
 }
 
-// Proses tambah konser
+
 if (isset($_POST['add'])) {
     $nama_artis = $_POST['nama_artis'];
     $tempat = $_POST['tempat'];
@@ -22,13 +22,13 @@ if (isset($_POST['add'])) {
     $gambar = $_FILES['gambar']['name'];
     $gambar_tmp = $_FILES['gambar']['tmp_name'];
     
-    // Membuat nama file gambar unik untuk menghindari duplikasi
+
     $gambar_new_name = time() . '_' . $gambar;
     
-    // Pindahkan gambar ke direktori 'img/'
+
     move_uploaded_file($gambar_tmp, "img/" . $gambar_new_name);
     
-    // Menyimpan data ke dalam database
+
     $stmt = $conn->prepare("INSERT INTO konser (nama_artis, tempat, tanggal, harga, gambar) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $nama_artis, $tempat, $tanggal, $harga, $gambar_new_name);
     $stmt->execute();
@@ -37,7 +37,7 @@ if (isset($_POST['add'])) {
     exit();
 }
 
-// Proses update konser
+
 if (isset($_POST['update'])) {
     $id = $_POST['id'];
     $nama_artis = $_POST['nama_artis'];
@@ -45,22 +45,18 @@ if (isset($_POST['update'])) {
     $tanggal = $_POST['tanggal'];
     $harga = $_POST['harga'];
 
-    // Cek jika ada gambar baru yang diupload
+
     if ($_FILES['gambar']['name'] != "") {
         $gambar = $_FILES['gambar']['name'];
         $gambar_tmp = $_FILES['gambar']['tmp_name'];
 
-        // Membuat nama file gambar unik untuk menghindari duplikasi
         $gambar_new_name = time() . '_' . $gambar;
 
-        // Pindahkan gambar ke direktori 'img/'
         move_uploaded_file($gambar_tmp, "img/" . $gambar_new_name);
 
-        // Update data konser dengan gambar baru
         $stmt = $conn->prepare("UPDATE konser SET nama_artis = ?, tempat = ?, tanggal = ?, harga = ?, gambar = ? WHERE id = ?");
         $stmt->bind_param("sssssi", $nama_artis, $tempat, $tanggal, $harga, $gambar_new_name, $id);
     } else {
-        // Jika gambar tidak diubah, cukup update data tanpa mengganti gambar
         $stmt = $conn->prepare("UPDATE konser SET nama_artis = ?, tempat = ?, tanggal = ?, harga = ? WHERE id = ?");
         $stmt->bind_param("ssssi", $nama_artis, $tempat, $tanggal, $harga, $id);
     }
@@ -143,12 +139,10 @@ if (isset($_POST['update'])) {
                 </tbody>
             </table>
 
-            <!-- Form untuk Edit Konser -->
             <?php
             if (isset($_GET['edit'])) {
                 $id = $_GET['edit'];
                 
-                // Mengambil data konser berdasarkan ID
                 $stmt = $conn->prepare("SELECT * FROM konser WHERE id = ?");
                 $stmt->bind_param("i", $id);
                 $stmt->execute();
@@ -157,7 +151,6 @@ if (isset($_POST['update'])) {
                 
                 if ($concert) {
                     ?>
-                    <!-- Form untuk mengedit konser -->
                     <form method="POST" action="daftarKonser.php" enctype="multipart/form-data" class="form-crud">
                         <input type="hidden" name="id" value="<?php echo $concert['id']; ?>">
                         <input type="text" name="nama_artis" placeholder="Nama Artis" value="<?php echo $concert['nama_artis']; ?>" required>

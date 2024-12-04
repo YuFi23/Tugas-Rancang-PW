@@ -1,7 +1,8 @@
 <?php
 include('connection.php');
+include('functions.php');
 
-// Proses logout
+
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
@@ -9,17 +10,8 @@ if (isset($_GET['logout'])) {
     exit();
 }
 
-// Fungsi untuk generate kode tiket acak
-function generateTicketCode($length = 10) {
-    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    $code = '';
-    for ($i = 0; $i < $length; $i++) {
-        $code .= $characters[rand(0, strlen($characters) - 1)];
-    }
-    return $code;
-}
 
-// Menangani form validasi pembayaran
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Ambil data dari form
     $concert_id = $_POST['concert_id'];
@@ -28,12 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
 
-    // Generate kode tiket baru
-    $ticket_code = generateTicketCode();
+    $ticket_code = generateRandomTicketCode();
 
-    // Menyiapkan query SQL untuk memasukkan data ke database
     $stmt = $conn->prepare("INSERT INTO pembayaran (concert_id, ticket_type, name, email, phone, payment_status, kode_tiket) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $status = 'Validated'; // Status default setelah validasi
+    $status = 'Validated'; 
     $stmt->bind_param("issssss", $concert_id, $ticket_type, $name, $email, $phone, $status, $ticket_code);
 
     // Eksekusi query

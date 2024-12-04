@@ -1,10 +1,9 @@
 <?php
-include('connection.php'); // Include database connection
+include('connection.php'); 
 
-// Ambil parameter 'concert' dari URL
 $concert_id = isset($_GET['concert']) ? $_GET['concert'] : null;
 
-// Ambil data konser berdasarkan ID
+
 if ($concert_id) {
     $stmt = $conn->prepare("SELECT * FROM konser WHERE id = ?");
     $stmt->bind_param("i", $concert_id);

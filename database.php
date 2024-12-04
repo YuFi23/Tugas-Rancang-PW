@@ -1,12 +1,13 @@
 <?php
-$host = 'localhost'; 
+$host = 'localhost';
+$dbname = 'dbtiket';
 $username = 'root';
 $password = '';
-$dbname = 'dbtiket';
 
-$conn = mysqli_connect($host, $username, $password, $dbname);
-if($conn->connect_errno){
-    echo 'failed to connect to MySQL: ' .mysqli_connect_error();
-    exit();
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Koneksi database gagal: " . $e->getMessage());
 }
 ?>

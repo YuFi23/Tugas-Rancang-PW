@@ -6,35 +6,31 @@ if (!isset($_SESSION['username'])) {
 }
 
 include('connection.php');
-$username = $_SESSION['username'];  // Mendapatkan username dari session
+$username = $_SESSION['username']; 
 
-// Debugging: Periksa email yang ada di session
+
 echo "<script>console.log('Email Session: " . $_SESSION['email'] . "');</script>";
 
-// Query yang disesuaikan untuk mengambil data riwayat berdasarkan email pengguna
+
 $query = "SELECT p.id, k.concert_name, p.ticket_type, p.created_at, p.payment_status 
           FROM pembayaran p 
           JOIN konser k ON p.concert_id = k.id 
-          WHERE p.email = ?";  // Gunakan email untuk menyaring berdasarkan pengguna
+          WHERE p.email = ?";  
 
-$stmt = $conn->prepare($query);  // Siapkan statement query
-$stmt->bind_param("s", $_SESSION['email']);  // Bind parameter email yang ada di session
-$stmt->execute();  // Eksekusi query
+$stmt = $conn->prepare($query);  
+$stmt->bind_param("s", $_SESSION['email']);  
+$stmt->execute();  
 
-$result = $stmt->get_result();  // Ambil hasil query
+$result = $stmt->get_result();
 $riwayat = [];
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        // Debugging: Menampilkan data yang diambil
         echo "<script>console.log('Row: " . json_encode($row) . "');</script>";
-        $riwayat[] = $row;  // Simpan setiap baris data ke dalam array
+        $riwayat[] = $row;  
     }
-} else {
-    echo "<script>alert('Tidak ada riwayat pembayaran untuk pengguna ini.');</script>";
 }
-
-$stmt->close();  // Tutup statement
+$stmt->close();  
 ?>
 
 <!DOCTYPE html>
@@ -62,7 +58,7 @@ $stmt->close();  // Tutup statement
             <thead>
                 <tr>
                     <th>ID Pembelian</th>
-                    <th>Nama Artis</th> <!-- Ganti "Concert" menjadi "Nama Artis" -->
+                    <th>Nama Artis/Konser</th> <!-- Ganti "Concert" menjadi "Nama Artis" -->
                     <th>Ticket Type</th>
                     <th>Date</th>
                     <th>Status</th>

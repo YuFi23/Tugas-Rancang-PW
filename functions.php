@@ -1,5 +1,7 @@
 <?php
 include 'connection.php';
+require_once 'database.php';
+
 function getConcertById($conn, $id) {
 
     $query = "SELECT * FROM konser WHERE id = ?";
@@ -111,6 +113,38 @@ function getTicketFromRequest($conn) {
     } else {
         echo "<div class='alert alert-warning'>Ticket ID is missing in the request.</div>";
         return null;
+    }
+}
+
+function generateRandomTicketCode($length = 8) {
+    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
+
+if (isset($_GET['ticket_code'])) {
+    $ticket_code = $_GET['ticket_code'];
+    $_SESSION['ticket_code'] = $ticket_code;
+} else {
+    if (!isset($_SESSION['ticket_code'])) {
+        $ticket_code = generateRandomTicketCode();
+        $_SESSION['ticket_code'] = $ticket_code;
+
+       
+        try {
+            $stmt = $pdo->prepare("INSERT INTO pembayaran (ticket_code) VALUES (:ticket_code)");
+            $stmt->bindParam(':ticket_code', $ticket_code);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            die("Gagal menyimpan ke database: " . $e->getMessage());
+        }
+    } else {
+        $ticket_code = $_SESSION['ticket_code'];
     }
 }
 

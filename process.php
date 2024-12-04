@@ -1,5 +1,5 @@
 <?php
-include('connection.php'); // Pastikan jalur file ini benar
+include('connection.php'); 
 include('functions.php');
 
 if (isset($_POST['add'])) {
@@ -8,7 +8,7 @@ if (isset($_POST['add'])) {
     $tanggal = $_POST['tanggal'];
     $harga = $_POST['harga'];
     
-    // Proses upload gambar dan tambahkan konser
+
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === 0) {
         $gambar = $_FILES['gambar'];
         createConcert($conn, $nama_artis, $tempat, $tanggal, $harga, $gambar);
@@ -24,7 +24,6 @@ if (isset($_POST['update'])) {
     $tanggal = $_POST['tanggal'];
     $harga = $_POST['harga'];
 
-    // Update konser jika ada gambar baru
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === 0) {
         updateConcert($conn, $id, $nama_artis, $tempat, $tanggal, $harga, $_FILES['gambar']);
     } else {
@@ -35,7 +34,6 @@ if (isset($_POST['update'])) {
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
 
-    // Hapus data pembayaran terkait terlebih dahulu
     $conn->query("DELETE FROM pembayaran WHERE concert_id = $id");
 
     // Cek keberadaan gambar sebelum menghapus
@@ -49,7 +47,7 @@ if (isset($_GET['delete'])) {
         echo "<script>console.warn('File gambar tidak ditemukan.');</script>";
     }
 
-    // Hapus data konser
+
     deleteConcert($conn, $id);
 }
 ?>
